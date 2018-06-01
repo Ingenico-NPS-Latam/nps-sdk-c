@@ -1,4 +1,4 @@
-#  C SDK
+#  C SDK (Beta Under Development)
 
 ##  Pre Requesites
 sudo apt-get install libcurl4-openssl-dev
