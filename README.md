@@ -68,20 +68,20 @@ void FillOrderDetailsStruct(ORDER_DETAILS_STRUCT *pOrderDetails){
 void FillCustomerAdditionalDetailsStruct(CUSTOMER_ADDITIONAL_DETAILS_STRUCT *pCustomerAdditionalDetails) {
     memset(pCustomerAdditionalDetails, 0, sizeof(CUSTOMER_ADDITIONAL_DETAILS_STRUCT));
     
-    pCustomerAdditionalDetails->EmailAddress=malloc(strlen("JUAN@juan.com")+1);
-    strcpy(pCustomerAdditionalDetails->EmailAddress,"JUAN@juan.com");
+    pCustomerAdditionalDetails->EmailAddress=malloc(strlen("jdoe@email.com")+1);
+    strcpy(pCustomerAdditionalDetails->EmailAddress,"jdoe@email.com");
     
-    pCustomerAdditionalDetails->AlternativeEmailAddress=malloc(strlen("PEPE@pepe.com")+1);
-    strcpy(pCustomerAdditionalDetails->AlternativeEmailAddress,"PEPE@pepe.com");
+    pCustomerAdditionalDetails->AlternativeEmailAddress=malloc(strlen("Jdoe79@email.com")+1);
+    strcpy(pCustomerAdditionalDetails->AlternativeEmailAddress,"Jdoe79@email.com");
     
-    pCustomerAdditionalDetails->IPAddress=malloc(strlen("222.222.222.222")+1);
-    strcpy(pCustomerAdditionalDetails->IPAddress,"222.222.222.222");
+    pCustomerAdditionalDetails->IPAddress=malloc(strlen("192.168.158.190")+1);
+    strcpy(pCustomerAdditionalDetails->IPAddress,"192.168.158.190");
     
     pCustomerAdditionalDetails->AccountID=malloc(strlen("2")+1);
     strcpy(pCustomerAdditionalDetails->AccountID,"2");
     
-    pCustomerAdditionalDetails->AccountCreatedAt=malloc(strlen("2014-01-01")+1);
-    strcpy(pCustomerAdditionalDetails->AccountCreatedAt,"2014-01-01");
+    pCustomerAdditionalDetails->AccountCreatedAt=malloc(strlen("2010-10-23")+1);
+    strcpy(pCustomerAdditionalDetails->AccountCreatedAt,"2010-10-23");
     
     pCustomerAdditionalDetails->AccountPreviousActivity=malloc(strlen("0")+1);
     strcpy(pCustomerAdditionalDetails->AccountPreviousActivity,"0");
@@ -98,62 +98,62 @@ void FillCustomerAdditionalDetailsStruct(CUSTOMER_ADDITIONAL_DETAILS_STRUCT *pCu
     pCustomerAdditionalDetails->BrowserLanguage=malloc(strlen("ES")+1);
     strcpy(pCustomerAdditionalDetails->BrowserLanguage,"ES");
     
-    pCustomerAdditionalDetails->HttpUserAgent=malloc(strlen("User Agent TEST, filled by merchant")+1);
-    strcpy(pCustomerAdditionalDetails->HttpUserAgent,"User Agent TEST, filled by merchant");
+    pCustomerAdditionalDetails->HttpUserAgent=malloc(strlen("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:21.0) Gecko/20100101 Firefox/21.0")+1);
+    strcpy(pCustomerAdditionalDetails->HttpUserAgent,"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:21.0) Gecko/20100101 Firefox/21.0");
 }
 
 void FillPersonStruct(PERSON_STRUCT *pPerson) {
     memset(pPerson, 0, sizeof(PERSON_STRUCT));
     
-    pPerson->FirstName=malloc(strlen("Silvina")+1);
-    strcpy(pPerson->FirstName, "Silvina");
+    pPerson->FirstName=malloc(strlen("John")+1);
+    strcpy(pPerson->FirstName, "John");
     
-    pPerson->LastName=malloc(strlen("Falconi")+1);
-    strcpy(pPerson->LastName, "Falconi");
+    pPerson->LastName=malloc(strlen("Doe")+1);
+    strcpy(pPerson->LastName, "Doe");
     
-    pPerson->MiddleName=malloc(strlen("Fernanda")+1);
-    strcpy(pPerson->MiddleName, "Fernanda");
+    pPerson->MiddleName=malloc(strlen("Michael")+1);
+    strcpy(pPerson->MiddleName, "Michael");
     
-    pPerson->PhoneNumber1=malloc(strlen("52520960")+1);
-    strcpy(pPerson->PhoneNumber1, "52520960");
+    pPerson->PhoneNumber1=malloc(strlen("+1 011 11111111")+1);
+    strcpy(pPerson->PhoneNumber1, "+1 011 11111111");
     
-    pPerson->PhoneNumber2=malloc(strlen("52520960")+1);
-    strcpy(pPerson->PhoneNumber2, "52520960");
+    pPerson->PhoneNumber2=malloc(strlen("+1 011 22222222")+1);
+    strcpy(pPerson->PhoneNumber2, "+1 011 22222222");
     
     pPerson->Gender=malloc(strlen("F")+1);
     strcpy(pPerson->Gender,"F");
     
-    pPerson->IDNumber=malloc(strlen("11111111")+1);
-    strcpy(pPerson->IDNumber,"11111111");
+    pPerson->IDNumber=malloc(strlen("54111111")+1);
+    strcpy(pPerson->IDNumber,"54111111");
     
-    pPerson->IDType=malloc(strlen("100")+1);
-    strcpy(pPerson->IDType,"100");
+    pPerson->IDType=malloc(strlen("200")+1);
+    strcpy(pPerson->IDType,"200");
   
 }
 
 void FillAddressStruct(ADDRESS_STRUCT *pAddress) {
     memset(pAddress, 0, sizeof(ADDRESS_STRUCT));
     
-    pAddress->Street=malloc(strlen("Calle falsa")+1);
-    strcpy(pAddress->Street,"Calle falsa");
+    pAddress->Street=malloc(strlen("Av. Collins")+1);
+    strcpy(pAddress->Street,"Av. Collins");
     
-    pAddress->HouseNumber=malloc(strlen("456")+1);
-    strcpy(pAddress->HouseNumber,"456");
+    pAddress->HouseNumber=malloc(strlen("1245")+1);
+    strcpy(pAddress->HouseNumber,"1245");
     
-    pAddress->AdditionalInfo=malloc(strlen("28")+1);
-    strcpy(pAddress->AdditionalInfo,"28");
+    pAddress->AdditionalInfo=malloc(strlen("2 A")+1);
+    strcpy(pAddress->AdditionalInfo,"2 A");
     
-    pAddress->City=malloc(strlen("Capital Feedral")+1);
-    strcpy(pAddress->City, "Capital Feedral");
+    pAddress->City=malloc(strlen("Miami")+1);
+    strcpy(pAddress->City, "Miami");
     
-    pAddress->StateProvince=malloc(strlen("Buenos Aires")+1);
-    strcpy(pAddress->StateProvince, "Buenos Aires");
+    pAddress->StateProvince=malloc(strlen("Florida")+1);
+    strcpy(pAddress->StateProvince, "Florida");
     
-    pAddress->Country=malloc(strlen("032")+1);
-    strcpy(pAddress->Country, "032");
+    pAddress->Country=malloc(strlen("USA")+1);
+    strcpy(pAddress->Country, "USA");
     
-    pAddress->ZipCode=malloc(strlen("1414")+1);
-    strcpy(pAddress->ZipCode, "1414");
+    pAddress->ZipCode=malloc(strlen("33140")+1);
+    strcpy(pAddress->ZipCode, "33140");
   
 }
 
@@ -166,11 +166,11 @@ void FillSellerDetails(SELLER_DETAILS_STRUCT *pSellerDetails) {
     pSellerDetails->IDType=malloc(strlen("200")+1);
     strcpy(pSellerDetails->IDType,"200");
     
-    pSellerDetails->Name=malloc(strlen("Seller Name")+1);
-    strcpy(pSellerDetails->Name,"Seller Name");
+    pSellerDetails->Name=malloc(strlen("John Doe")+1);
+    strcpy(pSellerDetails->Name,"John Doe");
     
-    pSellerDetails->Invoice=malloc(strlen("125447")+1);
-    strcpy(pSellerDetails->Invoice,"125447");
+    pSellerDetails->Invoice=malloc(strlen("54877555")+1);
+    strcpy(pSellerDetails->Invoice,"54877555");
     
     pSellerDetails->PurchaseDescription=malloc(strlen("Descripcion")+1);
     strcpy(pSellerDetails->PurchaseDescription,"Descripcion");
@@ -180,12 +180,12 @@ void FillSellerDetails(SELLER_DETAILS_STRUCT *pSellerDetails) {
 void FillBillingDetails(BILLING_DETAILS_STRUCT *pBillingDetails) {
     memset(pBillingDetails, 0, sizeof(BILLING_DETAILS_STRUCT));
     
-    pBillingDetails->Invoice = malloc(strlen("100001234")+1);
-    strcpy(pBillingDetails->Invoice,"100001234");
+    pBillingDetails->Invoice = malloc(strlen("54877555")+1);
+    strcpy(pBillingDetails->Invoice,"54877555");
     
    
-    pBillingDetails->InvoiceAmount = malloc(strlen("990")+1);
-    strcpy(pBillingDetails->InvoiceAmount, "990");
+    pBillingDetails->InvoiceAmount = malloc(strlen("15050")+1);
+    strcpy(pBillingDetails->InvoiceAmount, "15050");
     
     pBillingDetails->InvoiceCurrency = malloc(strlen("032")+1);
     strcpy(pBillingDetails->InvoiceCurrency, "032");
@@ -198,9 +198,6 @@ void FillMerchantAdditionalDetails(MERCHANT_ADDITIONAL_DETAILS_STRUCT *pMerchant
   pMerchantAdditionalDetails->ShoppingCartInfo = malloc(strlen("ShoppingCartInfo")+1);
   strcpy(pMerchantAdditionalDetails->ShoppingCartInfo,"ShoppingCartInfo");
   
-  pMerchantAdditionalDetails->SdkInfo = malloc(strlen("SdkInfo")+1);
-  strcpy(pMerchantAdditionalDetails->SdkInfo, "SdkInfo");
-
   pMerchantAdditionalDetails->ShoppingCartPluginInfo = malloc(strlen("ShoppingCartPluginInfo")+1);
   strcpy(pMerchantAdditionalDetails->ShoppingCartPluginInfo,"ShoppingCartPluginInfo");
   
@@ -285,11 +282,11 @@ void FillRequestPayOnLine_2p(PAY_ONLINE_2P_REQ_STRUCT *pRequest) {
     pRequest->psp_Currency =  malloc(strlen(psp_Currency)+1);
     strcpy(pRequest->psp_Currency, psp_Currency);
     
-    pRequest->psp_CardExpDate =  malloc(strlen("1812")+1);
-    strcpy(pRequest->psp_CardExpDate, "1812");
+    pRequest->psp_CardExpDate =  malloc(strlen("1912")+1);
+    strcpy(pRequest->psp_CardExpDate, "1912");
     
-    pRequest->psp_MerchOrderId =  malloc(strlen("000000223500001076720000100001")+1);
-    strcpy(pRequest->psp_MerchOrderId, "000000223500001076720000100001");
+    pRequest->psp_MerchOrderId =  malloc(strlen("ORDERX1466Xz")+1);
+    strcpy(pRequest->psp_MerchOrderId, "ORDERX1466Xz");
     
     pRequest->psp_Product =  malloc(strlen(psp_Product)+1);
     strcpy(pRequest->psp_Product, psp_Product);
@@ -303,8 +300,8 @@ void FillRequestPayOnLine_2p(PAY_ONLINE_2P_REQ_STRUCT *pRequest) {
     pRequest->psp_PosDateTime =  malloc(strlen("2017-03-23 04:13:37")+1);
     strcpy(pRequest->psp_PosDateTime, "2017-03-23 04:13:37");
     
-    pRequest->psp_PurchaseDescription =  malloc(strlen("00000022350000107672")+1);
-    strcpy(pRequest->psp_PurchaseDescription, "00000022350000107672");
+    pRequest->psp_PurchaseDescription =  malloc(strlen("My Items")+1);
+    strcpy(pRequest->psp_PurchaseDescription, "My Items");
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
