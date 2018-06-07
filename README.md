@@ -30,11 +30,15 @@ It's a basic configuration of the SDK
 int main( int argc, char **argv)
 {
  
-  int env=3; /*1:PROD, 2:SANBOX 3:STAGING*/
+  int env=SANBOX_ENV; /*PROD_ENV | SANBOX_ENV | STAGING_ENV*/
 
   FILE * auxFd = fopen ( "test.log", "a" ) ;
-  setLog( DEBUG, NULL, auxFd);
-  setEnvironment(env);
+
+  if (setLog( DEBUG, NULL, auxFd)<0)
+    return;
+
+  if (setEnvironment(env)<0)
+    return;
 }
 
 ```
@@ -377,18 +381,18 @@ int SendPayOnLine_2p(void) {
 int main( int argc, char **argv)
 {
  
-  int env=3; /*1:PROD, 2:SANBOX 3:STAGING*/
-  int type = 0;
+  int env=SANBOX_ENV; /*PROD_ENV | SANBOX_ENV | STAGING_ENV*/
 
   FILE * auxFd = fopen ( "test.log", "a" ) ;
-  setLog( DEBUG, NULL, auxFd);
-  setEnvironment(env);
 
-  switch (type) {
-    case PAY_ONLINE_2P_TYPE: SendPayOnLine_2p(); break;
-    defaul: printf("Invalid type[%d]\n", type); break;
+  if (setLog( DEBUG, NULL, auxFd)<0)
+    return;
 
-  }
+  if (setEnvironment(env)<0)
+    return;
+
+  SendPayOnLine_2p();
+
   LogClose();
 
 }

@@ -25,7 +25,6 @@ void LogInit( enum log_level type, char * LogFileName , FILE  * logFd)
     int    i;
     
     debug=1;
-    NpsLogLevel=type;
     
     if ( logFd != NULL ) {
       LogFd = logFd;
@@ -39,9 +38,9 @@ void LogInit( enum log_level type, char * LogFileName , FILE  * logFd)
                 fclose ( LogFd ) ;
 	    }
 
-            LogFd = fopen ( MISC_LogFileName, "a" ) ;
-
-            strncpy ( MISC_LoggerFileName, LogFileName, sizeof ( MISC_LogFileName ) ) ;
+            LogFd= fopen ( MISC_LogFileName, "a" ) ;
+	    if (LogFd)
+              strncpy ( MISC_LoggerFileName, LogFileName, sizeof ( MISC_LogFileName ) ) ;
 
 	}
 
@@ -51,9 +50,8 @@ void LogInit( enum log_level type, char * LogFileName , FILE  * logFd)
     if ( LogFd == NULL ) {
         LogFd = stdout;
     }
-
-    return ;
 }
+
 
 
 void LogClose ( void )
@@ -330,16 +328,18 @@ void Log(enum log_level type,  const char *Format, ... )
   int rc=0;
   char buffer[MAX_LEN_LINE];
   char stext[ MAX_LEN_LINE ] ;
+  int logLevel;
   va_list args;
   va_start(args, Format);
     
   if (debug) {
     rc = vsnprintf( stext, MAX_LEN_LINE, Format, args );
-    
-    if (NpsLogLevel == DEBUG) {
+
+    logLevel=getLogLevel();
+    if (logLevel == DEBUG) {
       writeLog(type, stext);
     } else {
-      if (NpsLogLevel ==  INFO && type != DEBUG) {
+      if (logLevel ==  INFO && type != DEBUG) {
 	MaskData(buffer, stext);
 	writeLog(type, buffer);
 	
@@ -423,8 +423,13 @@ int GetFieldIdxByDesc(char *key, int type, char* pRequest, struct nps_generics *
     }
     
     ptr=(char*) pRequest + structFieldsOffset[(i*ARR_OFFSET_COUNT)];
-    if ( strcmp(structFieldsDesc[i], key)==0) {
-      return i;
+    if (structFieldsDesc[i]) {
+      if ( strcmp(structFieldsDesc[i], key)==0) {
+        return i;
+      }
+    }
+    else {
+      break;
     }
   }
   return -1;
@@ -732,7 +737,7 @@ char *MaskFieldData(char *fieldValue, char *fieldName)
 
 void showRequestStruct(char *pStruct, struct nps_generics *ptrFieldsType, char *key, char *arrTab) {
   char **ptr, **sizeArr, **ptrArr;
-  int i, j,max_fields;
+  int i, j,max_fields, iSize;
   char **structFieldsDesc;
   size_t *structFieldsOffset;
   int *structFieldsIdx;
@@ -768,8 +773,8 @@ void showRequestStruct(char *pStruct, struct nps_generics *ptrFieldsType, char *
 	if (strcmp(structFieldsDesc[i], ARRAY_PTR_FIELD_DESC)==0) {
 	  ptr=pStruct + structFieldsOffset[i];
 	  sizeArr=pStruct + structFieldsOffset[i+1];
-	  Log(INFO,"    array size[%d]",(int *)(*sizeArr));
-	  for (j = 0; j < (int *)(*sizeArr); j++)  {
+	  iSize=(int *)*sizeArr;
+	  for (j = 0; j < iSize; j++)  {
 	    sprintf(keyAux, "[%d]",j);
 	    ptrArr=*ptr + (structFieldsType[i]->structSize * j);
 	    showRequestStruct((char*)(*ptrArr), structFieldsType[i], keyAux, tabAux);
@@ -884,7 +889,7 @@ void showResponse(int type,char *pResponse) {
       if (!structFieldsDesc[i]) {
 	break;
       }
-
+      
       offset=(i*ARR_OFFSET_COUNT)+envField;
       
       if ((long)(structFieldsOffset[offset]) < 0) {

@@ -9,10 +9,6 @@
 extern "C" {
 #endif
 
-static int npsEnvField=3;
-static char pref_env[3];
-static const ERR_OFFSET=-1;
-
 static char *npsEnvDesc[]=
 {
   "",
@@ -26,6 +22,12 @@ static enum log_level {
   INFO=3,
   DEBUG=7
 };
+
+static int NpsEnvField=3;
+static char pref_env[3];
+static const ERR_OFFSET=-1;
+static int NpsLogLevel=3;
+static int debug=0;
 
 
 #define SDK_ENV_COUNT                       4
@@ -817,6 +819,66 @@ static enum log_level {
 
 #define PSP_REVIEWRESULT_FIELD                        psp_ReviewResult
 #define PSP_REVIEWRESULT_FIELD_DESC                   "psp_ReviewResult"
+
+#define VAULT_REFERENCE_2P_XSI_TYPE                   "VaultReference2pStruct"
+#define TAXES_REQUEST_XSI_TYPE                        "TaxesRequestStruct"
+#define ARRAYOF_TAXESREQUESTSTRUCT_XSI_TYPE           "TaxesRequestStruct"
+#define AMOUNT_ADDITIONAL_DETAILS_REQUEST_XSI_TYPE    "AmountAdditionalDetailsRequestStruct"
+#define ADDRESS_XSI_TYPE                              "AddressStruct"
+#define SELLER_DETAILS_XSI_TYPE                       "SellerDetailsStruct"
+#define MERCHANT_ADDITIONAL_DETAILS_XSI_TYPE          "MerchantAdditionalDetailsStruct"
+#define CUSTOMER_ADDITIONAL_DETAILS_XSI_TYPE          "CustomerAdditionalDetailsStruct"
+#define PERSON_XSI_TYPE                               "PersonStruct"
+#define BILLING_DETAILS_XSI_TYPE                      "BillingDetailsStruct"
+#define SHIPPING_DETAILS_XSI_TYPE                     "ShippingDetailsStruct"
+#define ORDER_DETAILS_XSI_TYPE                        "OrderDetailsStruct"
+#define ARRAYOF_ORDERITEMSTRUCT_XSI_TYPE              "OrderItemStruct"
+#define ORDER_ITEM_XSI_TYPE                           "OrderItemStruct"
+#define LEG_XSI_TYPE                                  "LegStruct"
+#define ARRAYOF_LEGSTRUCT_XSI_TYPE                    "LegStruct"
+#define PASSENGER_XSI_TYPE                            "PassengerStruct"
+#define ARRAYOF_PASSENGERSTRUCT_XSI_TYPE              "PassengerStruct"
+#define AIRLINE_TICKET_ISSUE_XSI_TYPE                 "AirlineTicketIssueStruct"
+#define AIRLINE_TICKET_XSI_TYPE                       "AirlineTicketStruct"
+#define AIRLINE_DETAILS_XSI_TYPE                      "AirlineDetailsStruct" 
+#define TAXES_RESPONSE_XSI_TYPE                       "TaxesResponseStruct"
+#define ARRAYOF_TAXESRESPONSESTRUCT_XSI_TYPE          "TaxesResponseStruct"
+#define AMOUNT_ADDITIONAL_DETAILS_RESPONSE_XSI_TYPE   "AmountAdditionalDetailsResponseStruct"
+#define FRAUD_SCREENING_RESULT_XSI_TYPE               "FraudScreeningResultStruct"
+#define VERIFICATION_SERVICES_RESULT_XSI_TYPE         "VerificationServicesResultStruct"
+
+#define VAULT_REFERENCE_3P_XSI_TYPE                   "VaultReference3pStruct"
+#define CARD_INPUT_DETAILS_XSI_TYPE                   "CardInputDetailsStruct"
+#define PAYMENT_METHOD_INPUT_DETAILS_XSI_TYPE         "PaymentMethodInputDetailsStruct"
+#define CARD_INPUT_UPDATE_DETAILS_XSI_TYPE            "CardInputUpdateDetailsStruct"
+#define INSTALLMENTS_OPTIONS_XSI_TYPE                 "InstallmentsOptionsStruct"
+#define ARRAYOF_INSTALLMENTSOPTIONSSTRUCT_XSI_TYPE    "InstallmentsOptionsStruct"
+
+
+#define CARD_OUTPUT_DETAILS_XSI_TYPE                  "CardOutputDetailsStruct"
+#define PAYMENT_METHOD_OUTPUT_DETAILS_XSI_TYPE        "PaymentMethodOutputDetailsStruct"
+#define PAYMENT_METHODS_OUTPUT_DETAILS_XSI_TYPE       "PaymentMethodsOutputDetailsStruct"
+#define ARRAYOF_PAYMENTMETHODSOUTPUTDETAILSSTRUCT_XSI_TYPE "PaymentMethodsOutputDetailsStruct"
+#define RESPUESTASTRUCT_SIMPLEQUERYTX_TRANSACTIONS_XSI_TYPE "RespuestaStruct_SimpleQueryTx_Transactions"
+#define RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS_XSI_TYPE                         "RespuestaStruct_QueryTxs_Transactions"
+#define ARRAYOF_RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS_XSI_TYPE                 "RespuestaStruct_QueryTxs_Transactions"
+
+#define REQUERIMIENTO_STRUCT_SPLIT_PAYONLINE_2P_TRANSACTIONS_XSI_TYPE          "RequerimientoStruct_SplitPayOnLine_2p_Transactions"
+#define ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE    "RequerimientoStruct_SplitPayOnLine_2p_Transactions"
+#define REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS_XSI_TYPE           "RequerimientoStruct_SplitAuthorize_2p_Transactions"
+#define ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS_XSI_TYPE    "RequerimientoStruct_SplitAuthorize_2p_Transactions"
+#define REQUERIMIENTO_STRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE           "RequerimientoStruct_SplitPayOnLine_3p_Transactions"
+#define ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE    "RequerimientoStruct_SplitPayOnLine_3p_Transactions"
+#define REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE           "RequerimientoStruct_SplitAuthorize_3p_Transactions"
+#define ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE    "RequerimientoStruct_SplitAuthorize_3p_Transactions"
+
+#define RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE                "RespuestaStruct_SplitPayOnLine_2p_Transactions"
+#define ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE        "RespuestaStruct_SplitPayOnLine_2p_Transactions"
+#define RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE                "RespuestaStruct_SplitPayOnLine_3p_Transactions"
+#define ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE        "RespuestaStruct_SplitPayOnLine_3p_Transactions"
+#define RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE                "RespuestaStruct_SplitAuthorize_3p_Transactions"
+#define ARRAYOF_RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE        "RespuestaStruct_SplitAuthorize_3p_Transactions"
+
 
 typedef enum fields {
     PSP_VERSION=0,

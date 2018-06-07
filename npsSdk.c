@@ -10,26 +10,44 @@
 #include "parse_xml.h"
 #include "nps_utils.h"
 
-int setLog(enum log_level logLevel, char * LogFileName , FILE  * logFd)
-{
-  LogInit( logLevel, LogFileName , logFd);
-}
+int setLog(enum log_level logLevel, char * LogFileName , FILE  * logFd) {
+  int ret=0;
+  if ((logLevel == DEBUG ) && ( NpsEnvField == PROD_ENV )) {
+    Log(ERROR, "Can't use DEBUG Level on PRODUCTION environment");
+    return -1;
+  }
+  else {
+    LogInit( logLevel, LogFileName , logFd);
+    NpsLogLevel=logLevel;
+    return ret;
+  }
+};
 
-int setEnvironment(int iEnv) {
+int setEnvironment(enum envs iEnv) {
 
-  npsEnvField=iEnv;
-  Log(INFO, "setEnvironment [%d]", npsEnvField);  
+  if ((NpsLogLevel==DEBUG) && (iEnv==PROD_ENV)) {
+    Log(ERROR, "Can't set PRODUCTION env using DEBUG log level");
+    return -1;
+  }
+  NpsEnvField=iEnv;
+  Log(INFO, "setEnvironment [%d]", NpsEnvField);  
 
   switch (iEnv) {
     case 1: sprintf(pref_env, "prd"); break;
     case 2: sprintf(pref_env, "sbx"); break;
     case 3: sprintf(pref_env, "stg"); break;
   }
+  return 0;
 };
 
 int getEnvironment() {
 
-  return npsEnvField;
+  return NpsEnvField;
+};
+
+int getLogLevel() {
+
+  return NpsLogLevel;
 };
 
 struct MemoryStruct {
@@ -138,6 +156,7 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
     //case STAGE_ENV: https://implementacion.nps.com.ar/ws.php"; break; 
     case STAGE_ENV: sprintf(url,"https://psp.localhost:443/ws.php"); break;
   }
+  Log(INFO, " sendrequest to [%s]",url); 
 
   struct Buffer out, *pOut;  
   struct MemoryStruct chunk;

@@ -9,14 +9,14 @@ extern "C" {
 #endif
 
 
-enum envs {
+static enum envs {
   PROD_ENV=1,
   SANBOX_ENV,
   STAGE_ENV,
 };
 
 
-enum methods {
+static enum methods {
   PAY_ONLINE_2P_TYPE=1,
   AUTHORIZE_2P_TYPE,
   REFUND_TYPE,
@@ -56,13 +56,14 @@ enum methods {
 };
 
 
-struct nps_generics {
+static struct nps_generics {
   int *structFieldsIdx;  
   char **structFieldsDesc;
   size_t *structFieldsOffset;            
   int max_fields;
   int structSize;
   struct nps_generics *structFieldsType;
+  char *structXsiType;
 };
 
 
@@ -102,6 +103,7 @@ static struct nps_generics VaultReference2pFields=
   3, 
   sizeof(VAULT_REFERENCE_2P_STRUCT), 
   &VaultReference2pFieldsType, 
+  VAULT_REFERENCE_2P_XSI_TYPE, 
 };
 
 /****************************************
@@ -144,6 +146,7 @@ static struct nps_generics TaxesRequestFields=
   4, 
   sizeof(TAXES_REQUEST_STRUCT *), 
   &TaxesRequestFieldsType, 
+  TAXES_REQUEST_XSI_TYPE, 
 };
 
 static int ArrayOf_FieldsIdx[]=
@@ -178,6 +181,7 @@ static struct nps_generics ArrayOf_TaxesRequestStructFields=
     2,  
     sizeof(ARRAYOF_TAXESREQUESTSTRUCT), 
     &ArrayOf_TaxesRequestStructFieldsType, 
+    ARRAYOF_TAXESREQUESTSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -216,6 +220,7 @@ static struct nps_generics AmountAdditionalDetailsRequestFields=
   3, 
   sizeof(AMOUNT_ADDITIONAL_DETAILS_REQUEST_STRUCT), 
   &AmountAdditionalDetailsRequestFieldsType, 
+  AMOUNT_ADDITIONAL_DETAILS_REQUEST_XSI_TYPE, 
 };
 
 /****************************************
@@ -270,6 +275,7 @@ static struct nps_generics AddressFields=
   7, 
   sizeof(ADDRESS_STRUCT), 
   &AddressFieldsType, 
+  ADDRESS_XSI_TYPE, 
 };
 
 /****************************************
@@ -348,6 +354,7 @@ static struct nps_generics SellerDetailsFields=
   13, 
   sizeof(SELLER_DETAILS_STRUCT), 
   &SellerDetailsFieldsType, 
+  SELLER_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -394,6 +401,7 @@ static struct nps_generics MerchantAdditionalDetailsFields=
   5, 
   sizeof(MERCHANT_ADDITIONAL_DETAILS_STRUCT), 
   &MerchantAdditionalDetailsFieldsType, 
+  MERCHANT_ADDITIONAL_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -464,6 +472,7 @@ static struct nps_generics CustomerAdditionalDetailsFields=
   11, 
   sizeof(CUSTOMER_ADDITIONAL_DETAILS_STRUCT), 
   &CustomerAdditionalDetailsFieldsType, 
+  CUSTOMER_ADDITIONAL_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -530,6 +539,7 @@ static struct nps_generics PersonFields=
   10, 
   sizeof(PERSON_STRUCT), 
   &PersonFieldsType, 
+  PERSON_XSI_TYPE, 
 };
 
 /****************************************
@@ -580,6 +590,7 @@ static struct nps_generics BillingDetailsFields=
   6, 
   sizeof(BILLING_DETAILS_STRUCT), 
   &BillingDetailsFieldsType, 
+  BILLING_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -646,6 +657,7 @@ static struct nps_generics ShippingDetailsFields=
   10, 
   sizeof(SHIPPING_DETAILS_STRUCT), 
   &ShippingDetailsFieldsType, 
+  SHIPPING_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -700,6 +712,7 @@ static struct nps_generics OrderItemFields=
   7, 
   sizeof(ORDER_ITEM_STRUCT *), 
   &OrderItemFieldsType, 
+  ORDER_ITEM_XSI_TYPE, 
 };
 
 /****************************************
@@ -723,6 +736,7 @@ static struct nps_generics ArrayOf_OrderItemStructFields=
     2,  
     sizeof(ARRAYOF_ORDERITEMSTRUCT), 
     &ArrayOf_OrderItemStructFieldsType, 
+    ARRAYOF_ORDERITEMSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -753,6 +767,7 @@ static struct nps_generics OrderDetailsFields=
   1, 
   sizeof(ORDER_DETAILS_STRUCT), 
   &OrderDetailsFieldsType, 
+  ORDER_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -823,6 +838,7 @@ static struct nps_generics LegFields=
   11, 
   sizeof(LEG_STRUCT *), 
   &LegFieldsType, 
+  LEG_XSI_TYPE, 
 };
 
 /****************************************
@@ -846,6 +862,7 @@ static struct nps_generics ArrayOf_LegStructFields=
     2,  
     sizeof(ARRAYOF_LEGSTRUCT), 
     &ArrayOf_LegStructFieldsType, 
+    ARRAYOF_LEGSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -916,6 +933,7 @@ static struct nps_generics PassengerFields=
   11, 
   sizeof(PASSENGER_STRUCT *), 
   &PassengerFieldsType, 
+  PASSENGER_XSI_TYPE, 
 };
 
 /****************************************
@@ -939,6 +957,7 @@ static struct nps_generics ArrayOf_PassengerStructFields=
     2,  
     sizeof(ARRAYOF_PASSENGERSTRUCT), 
     &ArrayOf_PassengerStructFieldsType, 
+    ARRAYOF_PASSENGERSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -993,6 +1012,7 @@ static struct nps_generics AirlineTicketIssueFields=
   7, 
   sizeof(AIRLINE_TICKET_ISSUE_STRUCT), 
   &AirlineTicketIssueFieldsType, 
+  AIRLINE_TICKET_ISSUE_XSI_TYPE, 
 };
 
 /****************************************
@@ -1047,6 +1067,7 @@ static struct nps_generics AirlineTicketFields=
   7, 
   sizeof(AIRLINE_TICKET_STRUCT), 
   &AirlineTicketFieldsType, 
+  AIRLINE_TICKET_XSI_TYPE, 
 };
 
 /****************************************
@@ -1089,6 +1110,7 @@ static struct nps_generics AirlineDetailsFields=
   4, 
   sizeof(AIRLINE_DETAILS_STRUCT), 
   &AirlineDetailsFieldsType, 
+  AIRLINE_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1143,6 +1165,7 @@ static struct nps_generics TaxesResponseFields=
   7, 
   sizeof(TAXES_RESPONSE_STRUCT *), 
   &TaxesResponseFieldsType, 
+  TAXES_RESPONSE_XSI_TYPE, 
 };
 
 /****************************************
@@ -1166,6 +1189,7 @@ static struct nps_generics ArrayOf_TaxesResponseStructFields=
     2,  
     sizeof(ARRAYOF_TAXESRESPONSESTRUCT), 
     &ArrayOf_TaxesResponseStructFieldsType, 
+    ARRAYOF_TAXESRESPONSESTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -1204,6 +1228,7 @@ static struct nps_generics AmountAdditionalDetailsResponseFields=
   3, 
   sizeof(AMOUNT_ADDITIONAL_DETAILS_RESPONSE_STRUCT), 
   &AmountAdditionalDetailsResponseFieldsType, 
+  AMOUNT_ADDITIONAL_DETAILS_RESPONSE_XSI_TYPE, 
 };
 
 /****************************************
@@ -1242,6 +1267,7 @@ static struct nps_generics FraudScreeningResultFields=
   3, 
   sizeof(FRAUD_SCREENING_RESULT_STRUCT), 
   &FraudScreeningResultFieldsType, 
+  FRAUD_SCREENING_RESULT_XSI_TYPE, 
 };
 
 /****************************************
@@ -1304,6 +1330,7 @@ static struct nps_generics VerificationServicesResultFields=
   9, 
   sizeof(VERIFICATION_SERVICES_RESULT_STRUCT), 
   &VerificationServicesResultFieldsType, 
+  VERIFICATION_SERVICES_RESULT_XSI_TYPE, 
 };
 
 /****************************************
@@ -1406,6 +1433,7 @@ static struct nps_generics RequerimientoStruct_SplitPayOnLine_2p_TransactionsFie
   19, 
   sizeof(REQUERIMIENTO_STRUCT_SPLIT_PAYONLINE_2P_TRANSACTIONS *), 
   &RequerimientoStruct_SplitPayOnLine_2p_TransactionsFieldsType, 
+  REQUERIMIENTO_STRUCT_SPLIT_PAYONLINE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1429,6 +1457,7 @@ static struct nps_generics ArrayOf_RequerimientoStruct_SplitPayOnLine_2p_Transac
     2,  
     sizeof(ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS), 
     &ArrayOf_RequerimientoStruct_SplitPayOnLine_2p_TransactionsFieldsType, 
+    ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1603,6 +1632,7 @@ static struct nps_generics RespuestaStruct_SplitPayOnLine_2p_TransactionsFields=
   37, 
   sizeof(RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS *), 
   &RespuestaStruct_SplitPayOnLine_2p_TransactionsFieldsType, 
+  RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1626,6 +1656,7 @@ static struct nps_generics ArrayOf_RespuestaStruct_SplitPayOnLine_2p_Transaction
     2,  
     sizeof(ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS), 
     &ArrayOf_RespuestaStruct_SplitPayOnLine_2p_TransactionsFieldsType, 
+    ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1724,6 +1755,7 @@ static struct nps_generics RequerimientoStruct_SplitAuthorize_2p_TransactionsFie
   18, 
   sizeof(REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS *), 
   &RequerimientoStruct_SplitAuthorize_2p_TransactionsFieldsType, 
+  REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1747,6 +1779,7 @@ static struct nps_generics ArrayOf_RequerimientoStruct_SplitAuthorize_2p_Transac
     2,  
     sizeof(ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS), 
     &ArrayOf_RequerimientoStruct_SplitAuthorize_2p_TransactionsFieldsType, 
+    ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_2P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1777,6 +1810,7 @@ static struct nps_generics VaultReference3pFields=
   1, 
   sizeof(VAULT_REFERENCE_3P_STRUCT), 
   &VaultReference3pFieldsType, 
+  VAULT_REFERENCE_3P_XSI_TYPE, 
 };
 
 /****************************************
@@ -1851,6 +1885,7 @@ static struct nps_generics RequerimientoStruct_SplitPayOnLine_3p_TransactionsFie
   12, 
   sizeof(REQUERIMIENTO_STRUCT_SPLITPAYONLINE_3P_TRANSACTIONS *), 
   &RequerimientoStruct_SplitPayOnLine_3p_TransactionsFieldsType, 
+  REQUERIMIENTO_STRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1874,6 +1909,7 @@ static struct nps_generics ArrayOf_RequerimientoStruct_SplitPayOnLine_3p_Transac
     2,  
     sizeof(ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS), 
     &ArrayOf_RequerimientoStruct_SplitPayOnLine_3p_TransactionsFieldsType, 
+    ARRAYOF_REQUERIMIENTOSTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1952,6 +1988,7 @@ static struct nps_generics RespuestaStruct_SplitPayOnLine_3p_TransactionsFields=
   13, 
   sizeof(RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS *), 
   &RespuestaStruct_SplitPayOnLine_3p_TransactionsFieldsType, 
+  RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -1975,6 +2012,7 @@ static struct nps_generics ArrayOf_RespuestaStruct_SplitPayOnLine_3p_Transaction
     2,  
     sizeof(ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS), 
     &ArrayOf_RespuestaStruct_SplitPayOnLine_3p_TransactionsFieldsType, 
+    ARRAYOF_RESPUESTASTRUCT_SPLITPAYONLINE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2045,6 +2083,7 @@ static struct nps_generics RequerimientoStruct_SplitAuthorize_3p_TransactionsFie
   11, 
   sizeof(REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS *), 
   &RequerimientoStruct_SplitAuthorize_3p_TransactionsFieldsType, 
+  REQUERIMIENTO_STRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2068,6 +2107,7 @@ static struct nps_generics ArrayOf_RequerimientoStruct_SplitAuthorize_3p_Transac
     2,  
     sizeof(ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS), 
     &ArrayOf_RequerimientoStruct_SplitAuthorize_3p_TransactionsFieldsType, 
+    ARRAYOF_REQUERIMIENTOSTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2146,6 +2186,7 @@ static struct nps_generics RespuestaStruct_SplitAuthorize_3p_TransactionsFields=
   13, 
   sizeof(RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS *), 
   &RespuestaStruct_SplitAuthorize_3p_TransactionsFieldsType, 
+  RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2169,6 +2210,7 @@ static struct nps_generics ArrayOf_RespuestaStruct_SplitAuthorize_3p_Transaction
     2,  
     sizeof(ARRAYOF_RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS), 
     &ArrayOf_RespuestaStruct_SplitAuthorize_3p_TransactionsFieldsType, 
+    ARRAYOF_RESPUESTASTRUCT_SPLITAUTHORIZE_3P_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2211,6 +2253,7 @@ static struct nps_generics CardInputDetailsFields=
   4, 
   sizeof(CARD_INPUT_DETAILS_STRUCT), 
   &CardInputDetailsFieldsType, 
+  CARD_INPUT_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2257,6 +2300,7 @@ static struct nps_generics PaymentMethodInputDetailsFields=
   5, 
   sizeof(PAYMENT_METHOD_INPUT_DETAILS_STRUCT), 
   &PaymentMethodInputDetailsFieldsType, 
+  PAYMENT_METHOD_INPUT_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2323,6 +2367,7 @@ static struct nps_generics CardOutputDetailsFields=
   10, 
   sizeof(CARD_OUTPUT_DETAILS_STRUCT), 
   &CardOutputDetailsFieldsType, 
+  CARD_OUTPUT_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2385,6 +2430,7 @@ static struct nps_generics PaymentMethodOutputDetailsFields=
   9, 
   sizeof(PAYMENT_METHOD_OUTPUT_DETAILS_STRUCT), 
   &PaymentMethodOutputDetailsFieldsType, 
+  PAYMENT_METHOD_OUTPUT_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2419,6 +2465,7 @@ static struct nps_generics CardInputUpdateDetailsFields=
   2, 
   sizeof(CARD_INPUT_UPDATE_DETAILS_STRUCT), 
   &CardInputUpdateDetailsFieldsType, 
+  CARD_INPUT_UPDATE_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2481,6 +2528,7 @@ static struct nps_generics PaymentMethodsOutputDetailsFields=
   9, 
   sizeof(PAYMENT_METHODS_OUTPUT_DETAILS_STRUCT *), 
   &PaymentMethodsOutputDetailsFieldsType, 
+  PAYMENT_METHODS_OUTPUT_DETAILS_XSI_TYPE, 
 };
 
 /****************************************
@@ -2504,6 +2552,7 @@ static struct nps_generics ArrayOf_PaymentMethodsOutputDetailsStructFields=
     2,  
     sizeof(ARRAYOF_PAYMENTMETHODSOUTPUTDETAILSSTRUCT), 
     &ArrayOf_PaymentMethodsOutputDetailsStructFieldsType, 
+    ARRAYOF_PAYMENTMETHODSOUTPUTDETAILSSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -2762,6 +2811,7 @@ static struct nps_generics RespuestaFields_SimpleQueryTx_Transactions=
   58, 
   sizeof(RESPUESTASTRUCT_SIMPLEQUERYTX_TRANSACTIONS), 
   &RespuestaFields_SimpleQueryTx_TransactionsType, 
+  RESPUESTASTRUCT_SIMPLEQUERYTX_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -3020,6 +3070,7 @@ static struct nps_generics RespuestaStruct_QueryTxs_TransactionsFields=
   58, 
   sizeof(RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS *), 
   &RespuestaStruct_QueryTxs_TransactionsFieldsType, 
+  RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -3043,6 +3094,7 @@ static struct nps_generics ArrayOf_RespuestaStruct_QueryTxs_TransactionsFields=
     2,  
     sizeof(ARRAYOF_RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS), 
     &ArrayOf_RespuestaStruct_QueryTxs_TransactionsFieldsType, 
+    ARRAYOF_RESPUESTASTRUCT_QUERYTXS_TRANSACTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -3081,6 +3133,7 @@ static struct nps_generics InstallmentsOptionsFields=
   3, 
   sizeof(INSTALLMENTS_OPTIONS_STRUCT *), 
   &InstallmentsOptionsFieldsType, 
+  INSTALLMENTS_OPTIONS_XSI_TYPE, 
 };
 
 /****************************************
@@ -3104,6 +3157,7 @@ static struct nps_generics ArrayOf_InstallmentsOptionsStructFields=
     2,  
     sizeof(ARRAYOF_INSTALLMENTSOPTIONSSTRUCT), 
     &ArrayOf_InstallmentsOptionsStructFieldsType, 
+    ARRAYOF_INSTALLMENTSOPTIONSSTRUCT_XSI_TYPE, 
 };
 
 /****************************************
@@ -9113,84 +9167,84 @@ static struct nps_generics *RespFieldsType_NotifyFraudScreeningReview[]=
 //El orden de las estructuras debe corresponder con los enum methods
 static struct nps_generics methodsFields[]=
 {
-  {&ReqFieldsIdx_PayOnLine_2p, &ReqFieldsDesc_PayOnLine_2p, &inicioReqStruct_PayOnLine_2p, 51,sizeof(PAY_ONLINE_2P_REQ_STRUCT), &ReqFieldsType_PayOnLine_2p},
-  {&ReqFieldsIdx_Authorize_2p, &ReqFieldsDesc_Authorize_2p, &inicioReqStruct_Authorize_2p, 51,sizeof(AUTHORIZE_2P_REQ_STRUCT), &ReqFieldsType_Authorize_2p},
-  {&ReqFieldsIdx_Refund, &ReqFieldsDesc_Refund, &inicioReqStruct_Refund, 51,sizeof(REFUND_REQ_STRUCT), &ReqFieldsType_Refund},
-  {&ReqFieldsIdx_Capture, &ReqFieldsDesc_Capture, &inicioReqStruct_Capture, 51,sizeof(CAPTURE_REQ_STRUCT), &ReqFieldsType_Capture},
-  {&ReqFieldsIdx_BankPayment_2p, &ReqFieldsDesc_BankPayment_2p, &inicioReqStruct_BankPayment_2p, 51,sizeof(BANK_PAYMENT_2P_REQ_STRUCT), &ReqFieldsType_BankPayment_2p},
-  {&ReqFieldsIdx_SplitPayOnLine_2p, &ReqFieldsDesc_SplitPayOnLine_2p, &inicioReqStruct_SplitPayOnLine_2p, 51,sizeof(SPLIT_PAY_ONLINE_2P_REQ_STRUCT), &ReqFieldsType_SplitPayOnLine_2p},
-  {&ReqFieldsIdx_SplitAuthorize_2p, &ReqFieldsDesc_SplitAuthorize_2p, &inicioReqStruct_SplitAuthorize_2p, 51,sizeof(SPLIT_AUTHORIZE_2P_REQ_STRUCT), &ReqFieldsType_SplitAuthorize_2p},
-  {&ReqFieldsIdx_PayOnLine_3p, &ReqFieldsDesc_PayOnLine_3p, &inicioReqStruct_PayOnLine_3p, 51,sizeof(PAY_ONLINE_3P_REQ_STRUCT), &ReqFieldsType_PayOnLine_3p},
-  {&ReqFieldsIdx_SplitPayOnLine_3p, &ReqFieldsDesc_SplitPayOnLine_3p, &inicioReqStruct_SplitPayOnLine_3p, 51,sizeof(SPLIT_PAY_ONLINE_3P_REQ_STRUCT), &ReqFieldsType_SplitPayOnLine_3p},
-  {&ReqFieldsIdx_Authorize_3p, &ReqFieldsDesc_Authorize_3p, &inicioReqStruct_Authorize_3p, 51,sizeof(AUTHORIZE_3P_REQ_STRUCT), &ReqFieldsType_Authorize_3p},
-  {&ReqFieldsIdx_SplitAuthorize_3p, &ReqFieldsDesc_SplitAuthorize_3p, &inicioReqStruct_SplitAuthorize_3p, 51,sizeof(SPLIT_AUTHORIZE_3P_REQ_STRUCT), &ReqFieldsType_SplitAuthorize_3p},
-  {&ReqFieldsIdx_BankPayment_3p, &ReqFieldsDesc_BankPayment_3p, &inicioReqStruct_BankPayment_3p, 51,sizeof(BANK_PAYMENT_3P_REQ_STRUCT), &ReqFieldsType_BankPayment_3p},
-  {&ReqFieldsIdx_CashPayment_3p, &ReqFieldsDesc_CashPayment_3p, &inicioReqStruct_CashPayment_3p, 51,sizeof(CASH_PAYMENT_3P_REQ_STRUCT), &ReqFieldsType_CashPayment_3p},
-  {&ReqFieldsIdx_CreatePaymentMethod, &ReqFieldsDesc_CreatePaymentMethod, &inicioReqStruct_CreatePaymentMethod, 51,sizeof(CREATE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethod},
-  {&ReqFieldsIdx_CreatePaymentMethodToken, &ReqFieldsDesc_CreatePaymentMethodToken, &inicioReqStruct_CreatePaymentMethodToken, 51,sizeof(CREATE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethodToken},
-  {&ReqFieldsIdx_RetrievePaymentMethodToken, &ReqFieldsDesc_RetrievePaymentMethodToken, &inicioReqStruct_RetrievePaymentMethodToken, 51,sizeof(RETRIEVE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_RetrievePaymentMethodToken},
-  {&ReqFieldsIdx_CreatePaymentMethodFromPayment, &ReqFieldsDesc_CreatePaymentMethodFromPayment, &inicioReqStruct_CreatePaymentMethodFromPayment, 51,sizeof(CREATE_PAYMENT_METHOD_FROM_PAYMENT_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethodFromPayment},
-  {&ReqFieldsIdx_RetrievePaymentMethod, &ReqFieldsDesc_RetrievePaymentMethod, &inicioReqStruct_RetrievePaymentMethod, 51,sizeof(RETRIEVE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_RetrievePaymentMethod},
-  {&ReqFieldsIdx_UpdatePaymentMethod, &ReqFieldsDesc_UpdatePaymentMethod, &inicioReqStruct_UpdatePaymentMethod, 51,sizeof(UPDATE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_UpdatePaymentMethod},
-  {&ReqFieldsIdx_DeletePaymentMethod, &ReqFieldsDesc_DeletePaymentMethod, &inicioReqStruct_DeletePaymentMethod, 51,sizeof(DELETE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_DeletePaymentMethod},
-  {&ReqFieldsIdx_RecachePaymentMethodToken, &ReqFieldsDesc_RecachePaymentMethodToken, &inicioReqStruct_RecachePaymentMethodToken, 51,sizeof(RECACHE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_RecachePaymentMethodToken},
-  {&ReqFieldsIdx_CreateCustomer, &ReqFieldsDesc_CreateCustomer, &inicioReqStruct_CreateCustomer, 51,sizeof(CREATE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_CreateCustomer},
-  {&ReqFieldsIdx_RetrieveCustomer, &ReqFieldsDesc_RetrieveCustomer, &inicioReqStruct_RetrieveCustomer, 51,sizeof(RETRIEVE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_RetrieveCustomer},
-  {&ReqFieldsIdx_UpdateCustomer, &ReqFieldsDesc_UpdateCustomer, &inicioReqStruct_UpdateCustomer, 51,sizeof(UPDATE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_UpdateCustomer},
-  {&ReqFieldsIdx_DeleteCustomer, &ReqFieldsDesc_DeleteCustomer, &inicioReqStruct_DeleteCustomer, 51,sizeof(DELETE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_DeleteCustomer},
-  {&ReqFieldsIdx_SimpleQueryTx, &ReqFieldsDesc_SimpleQueryTx, &inicioReqStruct_SimpleQueryTx, 51,sizeof(SIMPLE_QUERY_TX_REQ_STRUCT), &ReqFieldsType_SimpleQueryTx},
-  {&ReqFieldsIdx_QueryCardNumber, &ReqFieldsDesc_QueryCardNumber, &inicioReqStruct_QueryCardNumber, 51,sizeof(QUERY_CARD_NUMBER_REQ_STRUCT), &ReqFieldsType_QueryCardNumber},
-  {&ReqFieldsIdx_QueryCardDetails, &ReqFieldsDesc_QueryCardDetails, &inicioReqStruct_QueryCardDetails, 51,sizeof(QUERY_CARD_DETAILS_REQ_STRUCT), &ReqFieldsType_QueryCardDetails},
-  {&ReqFieldsIdx_QueryTxs, &ReqFieldsDesc_QueryTxs, &inicioReqStruct_QueryTxs, 51,sizeof(QUERY_TXS_REQ_STRUCT), &ReqFieldsType_QueryTxs},
-  {&ReqFieldsIdx_GetIINDetails, &ReqFieldsDesc_GetIINDetails, &inicioReqStruct_GetIINDetails, 51,sizeof(GET_IIN_DETAILS_REQ_STRUCT), &ReqFieldsType_GetIINDetails},
-  {&ReqFieldsIdx_ChangeSecretKey, &ReqFieldsDesc_ChangeSecretKey, &inicioReqStruct_ChangeSecretKey, 51,sizeof(CHANGE_SECRET_KEY_REQ_STRUCT), &ReqFieldsType_ChangeSecretKey},
-  {&ReqFieldsIdx_FraudScreening, &ReqFieldsDesc_FraudScreening, &inicioReqStruct_FraudScreening, 51,sizeof(FRAUD_SCREENING_REQ_STRUCT), &ReqFieldsType_FraudScreening},
-  {&ReqFieldsIdx_CreateClientSession, &ReqFieldsDesc_CreateClientSession, &inicioReqStruct_CreateClientSession, 51,sizeof(CREATE_CLIENT_SESSION_REQ_STRUCT), &ReqFieldsType_CreateClientSession},
-  {&ReqFieldsIdx_GetInstallmentsOptions, &ReqFieldsDesc_GetInstallmentsOptions, &inicioReqStruct_GetInstallmentsOptions, 51,sizeof(GET_INSTALLMENTS_OPTIONS_REQ_STRUCT), &ReqFieldsType_GetInstallmentsOptions},
-  {&ReqFieldsIdx_NotifyFraudScreeningReview, &ReqFieldsDesc_NotifyFraudScreeningReview, &inicioReqStruct_NotifyFraudScreeningReview, 51,sizeof(NOTIFY_FRAUD_SCREENING_REVIEW_REQ_STRUCT), &ReqFieldsType_NotifyFraudScreeningReview},
+  {&ReqFieldsIdx_PayOnLine_2p, &ReqFieldsDesc_PayOnLine_2p, &inicioReqStruct_PayOnLine_2p, 51,sizeof(PAY_ONLINE_2P_REQ_STRUCT), &ReqFieldsType_PayOnLine_2p, NULL},
+  {&ReqFieldsIdx_Authorize_2p, &ReqFieldsDesc_Authorize_2p, &inicioReqStruct_Authorize_2p, 51,sizeof(AUTHORIZE_2P_REQ_STRUCT), &ReqFieldsType_Authorize_2p, NULL},
+  {&ReqFieldsIdx_Refund, &ReqFieldsDesc_Refund, &inicioReqStruct_Refund, 51,sizeof(REFUND_REQ_STRUCT), &ReqFieldsType_Refund, NULL},
+  {&ReqFieldsIdx_Capture, &ReqFieldsDesc_Capture, &inicioReqStruct_Capture, 51,sizeof(CAPTURE_REQ_STRUCT), &ReqFieldsType_Capture, NULL},
+  {&ReqFieldsIdx_BankPayment_2p, &ReqFieldsDesc_BankPayment_2p, &inicioReqStruct_BankPayment_2p, 51,sizeof(BANK_PAYMENT_2P_REQ_STRUCT), &ReqFieldsType_BankPayment_2p, NULL},
+  {&ReqFieldsIdx_SplitPayOnLine_2p, &ReqFieldsDesc_SplitPayOnLine_2p, &inicioReqStruct_SplitPayOnLine_2p, 51,sizeof(SPLIT_PAY_ONLINE_2P_REQ_STRUCT), &ReqFieldsType_SplitPayOnLine_2p, NULL},
+  {&ReqFieldsIdx_SplitAuthorize_2p, &ReqFieldsDesc_SplitAuthorize_2p, &inicioReqStruct_SplitAuthorize_2p, 51,sizeof(SPLIT_AUTHORIZE_2P_REQ_STRUCT), &ReqFieldsType_SplitAuthorize_2p, NULL},
+  {&ReqFieldsIdx_PayOnLine_3p, &ReqFieldsDesc_PayOnLine_3p, &inicioReqStruct_PayOnLine_3p, 51,sizeof(PAY_ONLINE_3P_REQ_STRUCT), &ReqFieldsType_PayOnLine_3p, NULL},
+  {&ReqFieldsIdx_SplitPayOnLine_3p, &ReqFieldsDesc_SplitPayOnLine_3p, &inicioReqStruct_SplitPayOnLine_3p, 51,sizeof(SPLIT_PAY_ONLINE_3P_REQ_STRUCT), &ReqFieldsType_SplitPayOnLine_3p, NULL},
+  {&ReqFieldsIdx_Authorize_3p, &ReqFieldsDesc_Authorize_3p, &inicioReqStruct_Authorize_3p, 51,sizeof(AUTHORIZE_3P_REQ_STRUCT), &ReqFieldsType_Authorize_3p, NULL},
+  {&ReqFieldsIdx_SplitAuthorize_3p, &ReqFieldsDesc_SplitAuthorize_3p, &inicioReqStruct_SplitAuthorize_3p, 51,sizeof(SPLIT_AUTHORIZE_3P_REQ_STRUCT), &ReqFieldsType_SplitAuthorize_3p, NULL},
+  {&ReqFieldsIdx_BankPayment_3p, &ReqFieldsDesc_BankPayment_3p, &inicioReqStruct_BankPayment_3p, 51,sizeof(BANK_PAYMENT_3P_REQ_STRUCT), &ReqFieldsType_BankPayment_3p, NULL},
+  {&ReqFieldsIdx_CashPayment_3p, &ReqFieldsDesc_CashPayment_3p, &inicioReqStruct_CashPayment_3p, 51,sizeof(CASH_PAYMENT_3P_REQ_STRUCT), &ReqFieldsType_CashPayment_3p, NULL},
+  {&ReqFieldsIdx_CreatePaymentMethod, &ReqFieldsDesc_CreatePaymentMethod, &inicioReqStruct_CreatePaymentMethod, 51,sizeof(CREATE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethod, NULL},
+  {&ReqFieldsIdx_CreatePaymentMethodToken, &ReqFieldsDesc_CreatePaymentMethodToken, &inicioReqStruct_CreatePaymentMethodToken, 51,sizeof(CREATE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethodToken, NULL},
+  {&ReqFieldsIdx_RetrievePaymentMethodToken, &ReqFieldsDesc_RetrievePaymentMethodToken, &inicioReqStruct_RetrievePaymentMethodToken, 51,sizeof(RETRIEVE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_RetrievePaymentMethodToken, NULL},
+  {&ReqFieldsIdx_CreatePaymentMethodFromPayment, &ReqFieldsDesc_CreatePaymentMethodFromPayment, &inicioReqStruct_CreatePaymentMethodFromPayment, 51,sizeof(CREATE_PAYMENT_METHOD_FROM_PAYMENT_REQ_STRUCT), &ReqFieldsType_CreatePaymentMethodFromPayment, NULL},
+  {&ReqFieldsIdx_RetrievePaymentMethod, &ReqFieldsDesc_RetrievePaymentMethod, &inicioReqStruct_RetrievePaymentMethod, 51,sizeof(RETRIEVE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_RetrievePaymentMethod, NULL},
+  {&ReqFieldsIdx_UpdatePaymentMethod, &ReqFieldsDesc_UpdatePaymentMethod, &inicioReqStruct_UpdatePaymentMethod, 51,sizeof(UPDATE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_UpdatePaymentMethod, NULL},
+  {&ReqFieldsIdx_DeletePaymentMethod, &ReqFieldsDesc_DeletePaymentMethod, &inicioReqStruct_DeletePaymentMethod, 51,sizeof(DELETE_PAYMENT_METHOD_REQ_STRUCT), &ReqFieldsType_DeletePaymentMethod, NULL},
+  {&ReqFieldsIdx_RecachePaymentMethodToken, &ReqFieldsDesc_RecachePaymentMethodToken, &inicioReqStruct_RecachePaymentMethodToken, 51,sizeof(RECACHE_PAYMENT_METHOD_TOKEN_REQ_STRUCT), &ReqFieldsType_RecachePaymentMethodToken, NULL},
+  {&ReqFieldsIdx_CreateCustomer, &ReqFieldsDesc_CreateCustomer, &inicioReqStruct_CreateCustomer, 51,sizeof(CREATE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_CreateCustomer, NULL},
+  {&ReqFieldsIdx_RetrieveCustomer, &ReqFieldsDesc_RetrieveCustomer, &inicioReqStruct_RetrieveCustomer, 51,sizeof(RETRIEVE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_RetrieveCustomer, NULL},
+  {&ReqFieldsIdx_UpdateCustomer, &ReqFieldsDesc_UpdateCustomer, &inicioReqStruct_UpdateCustomer, 51,sizeof(UPDATE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_UpdateCustomer, NULL},
+  {&ReqFieldsIdx_DeleteCustomer, &ReqFieldsDesc_DeleteCustomer, &inicioReqStruct_DeleteCustomer, 51,sizeof(DELETE_CUSTOMER_REQ_STRUCT), &ReqFieldsType_DeleteCustomer, NULL},
+  {&ReqFieldsIdx_SimpleQueryTx, &ReqFieldsDesc_SimpleQueryTx, &inicioReqStruct_SimpleQueryTx, 51,sizeof(SIMPLE_QUERY_TX_REQ_STRUCT), &ReqFieldsType_SimpleQueryTx, NULL},
+  {&ReqFieldsIdx_QueryCardNumber, &ReqFieldsDesc_QueryCardNumber, &inicioReqStruct_QueryCardNumber, 51,sizeof(QUERY_CARD_NUMBER_REQ_STRUCT), &ReqFieldsType_QueryCardNumber, NULL},
+  {&ReqFieldsIdx_QueryCardDetails, &ReqFieldsDesc_QueryCardDetails, &inicioReqStruct_QueryCardDetails, 51,sizeof(QUERY_CARD_DETAILS_REQ_STRUCT), &ReqFieldsType_QueryCardDetails, NULL},
+  {&ReqFieldsIdx_QueryTxs, &ReqFieldsDesc_QueryTxs, &inicioReqStruct_QueryTxs, 51,sizeof(QUERY_TXS_REQ_STRUCT), &ReqFieldsType_QueryTxs, NULL},
+  {&ReqFieldsIdx_GetIINDetails, &ReqFieldsDesc_GetIINDetails, &inicioReqStruct_GetIINDetails, 51,sizeof(GET_IIN_DETAILS_REQ_STRUCT), &ReqFieldsType_GetIINDetails, NULL},
+  {&ReqFieldsIdx_ChangeSecretKey, &ReqFieldsDesc_ChangeSecretKey, &inicioReqStruct_ChangeSecretKey, 51,sizeof(CHANGE_SECRET_KEY_REQ_STRUCT), &ReqFieldsType_ChangeSecretKey, NULL},
+  {&ReqFieldsIdx_FraudScreening, &ReqFieldsDesc_FraudScreening, &inicioReqStruct_FraudScreening, 51,sizeof(FRAUD_SCREENING_REQ_STRUCT), &ReqFieldsType_FraudScreening, NULL},
+  {&ReqFieldsIdx_CreateClientSession, &ReqFieldsDesc_CreateClientSession, &inicioReqStruct_CreateClientSession, 51,sizeof(CREATE_CLIENT_SESSION_REQ_STRUCT), &ReqFieldsType_CreateClientSession, NULL},
+  {&ReqFieldsIdx_GetInstallmentsOptions, &ReqFieldsDesc_GetInstallmentsOptions, &inicioReqStruct_GetInstallmentsOptions, 51,sizeof(GET_INSTALLMENTS_OPTIONS_REQ_STRUCT), &ReqFieldsType_GetInstallmentsOptions, NULL},
+  {&ReqFieldsIdx_NotifyFraudScreeningReview, &ReqFieldsDesc_NotifyFraudScreeningReview, &inicioReqStruct_NotifyFraudScreeningReview, 51,sizeof(NOTIFY_FRAUD_SCREENING_REVIEW_REQ_STRUCT), &ReqFieldsType_NotifyFraudScreeningReview, NULL},
 };
 
 static struct nps_generics methodsRespFields[]=
 {
-  {&RespFieldsIdx_PayOnLine_2p, &RespFieldsDesc_PayOnLine_2p, &inicioRespStruct_PayOnLine_2p, 51, sizeof(PAY_ONLINE_2P_RESP_STRUCT),&RespFieldsType_PayOnLine_2p},
-  {&RespFieldsIdx_Authorize_2p, &RespFieldsDesc_Authorize_2p, &inicioRespStruct_Authorize_2p, 51, sizeof(AUTHORIZE_2P_RESP_STRUCT),&RespFieldsType_Authorize_2p},
-  {&RespFieldsIdx_Refund, &RespFieldsDesc_Refund, &inicioRespStruct_Refund, 51, sizeof(REFUND_RESP_STRUCT),&RespFieldsType_Refund},
-  {&RespFieldsIdx_Capture, &RespFieldsDesc_Capture, &inicioRespStruct_Capture, 51, sizeof(CAPTURE_RESP_STRUCT),&RespFieldsType_Capture},
-  {&RespFieldsIdx_BankPayment_2p, &RespFieldsDesc_BankPayment_2p, &inicioRespStruct_BankPayment_2p, 51, sizeof(BANK_PAYMENT_2P_RESP_STRUCT),&RespFieldsType_BankPayment_2p},
-  {&RespFieldsIdx_SplitPayOnLine_2p, &RespFieldsDesc_SplitPayOnLine_2p, &inicioRespStruct_SplitPayOnLine_2p, 51, sizeof(SPLIT_PAY_ONLINE_2P_RESP_STRUCT),&RespFieldsType_SplitPayOnLine_2p},
-  {&RespFieldsIdx_SplitAuthorize_2p, &RespFieldsDesc_SplitAuthorize_2p, &inicioRespStruct_SplitAuthorize_2p, 51, sizeof(SPLIT_AUTHORIZE_2P_RESP_STRUCT),&RespFieldsType_SplitAuthorize_2p},
-  {&RespFieldsIdx_PayOnLine_3p, &RespFieldsDesc_PayOnLine_3p, &inicioRespStruct_PayOnLine_3p, 51, sizeof(PAY_ONLINE_3P_RESP_STRUCT),&RespFieldsType_PayOnLine_3p},
-  {&RespFieldsIdx_SplitPayOnLine_3p, &RespFieldsDesc_SplitPayOnLine_3p, &inicioRespStruct_SplitPayOnLine_3p, 51, sizeof(SPLIT_PAY_ONLINE_3P_RESP_STRUCT),&RespFieldsType_SplitPayOnLine_3p},
-  {&RespFieldsIdx_Authorize_3p, &RespFieldsDesc_Authorize_3p, &inicioRespStruct_Authorize_3p, 51, sizeof(AUTHORIZE_3P_RESP_STRUCT),&RespFieldsType_Authorize_3p},
-  {&RespFieldsIdx_SplitAuthorize_3p, &RespFieldsDesc_SplitAuthorize_3p, &inicioRespStruct_SplitAuthorize_3p, 51, sizeof(SPLIT_AUTHORIZE_3P_RESP_STRUCT),&RespFieldsType_SplitAuthorize_3p},
-  {&RespFieldsIdx_BankPayment_3p, &RespFieldsDesc_BankPayment_3p, &inicioRespStruct_BankPayment_3p, 51, sizeof(BANK_PAYMENT_3P_RESP_STRUCT),&RespFieldsType_BankPayment_3p},
-  {&RespFieldsIdx_CashPayment_3p, &RespFieldsDesc_CashPayment_3p, &inicioRespStruct_CashPayment_3p, 51, sizeof(CASH_PAYMENT_3P_RESP_STRUCT),&RespFieldsType_CashPayment_3p},
-  {&RespFieldsIdx_CreatePaymentMethod, &RespFieldsDesc_CreatePaymentMethod, &inicioRespStruct_CreatePaymentMethod, 51, sizeof(CREATE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_CreatePaymentMethod},
-  {&RespFieldsIdx_CreatePaymentMethodToken, &RespFieldsDesc_CreatePaymentMethodToken, &inicioRespStruct_CreatePaymentMethodToken, 51, sizeof(CREATE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_CreatePaymentMethodToken},
-  {&RespFieldsIdx_RetrievePaymentMethodToken, &RespFieldsDesc_RetrievePaymentMethodToken, &inicioRespStruct_RetrievePaymentMethodToken, 51, sizeof(RETRIEVE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_RetrievePaymentMethodToken},
-  {&RespFieldsIdx_CreatePaymentMethodFromPayment, &RespFieldsDesc_CreatePaymentMethodFromPayment, &inicioRespStruct_CreatePaymentMethodFromPayment, 51, sizeof(CREATE_PAYMENT_METHOD_FROM_PAYMENT_RESP_STRUCT),&RespFieldsType_CreatePaymentMethodFromPayment},
-  {&RespFieldsIdx_RetrievePaymentMethod, &RespFieldsDesc_RetrievePaymentMethod, &inicioRespStruct_RetrievePaymentMethod, 51, sizeof(RETRIEVE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_RetrievePaymentMethod},
-  {&RespFieldsIdx_UpdatePaymentMethod, &RespFieldsDesc_UpdatePaymentMethod, &inicioRespStruct_UpdatePaymentMethod, 51, sizeof(UPDATE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_UpdatePaymentMethod},
-  {&RespFieldsIdx_DeletePaymentMethod, &RespFieldsDesc_DeletePaymentMethod, &inicioRespStruct_DeletePaymentMethod, 51, sizeof(DELETE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_DeletePaymentMethod},
-  {&RespFieldsIdx_RecachePaymentMethodToken, &RespFieldsDesc_RecachePaymentMethodToken, &inicioRespStruct_RecachePaymentMethodToken, 51, sizeof(RECACHE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_RecachePaymentMethodToken},
-  {&RespFieldsIdx_CreateCustomer, &RespFieldsDesc_CreateCustomer, &inicioRespStruct_CreateCustomer, 51, sizeof(CREATE_CUSTOMER_RESP_STRUCT),&RespFieldsType_CreateCustomer},
-  {&RespFieldsIdx_RetrieveCustomer, &RespFieldsDesc_RetrieveCustomer, &inicioRespStruct_RetrieveCustomer, 51, sizeof(RETRIEVE_CUSTOMER_RESP_STRUCT),&RespFieldsType_RetrieveCustomer},
-  {&RespFieldsIdx_UpdateCustomer, &RespFieldsDesc_UpdateCustomer, &inicioRespStruct_UpdateCustomer, 51, sizeof(UPDATE_CUSTOMER_RESP_STRUCT),&RespFieldsType_UpdateCustomer},
-  {&RespFieldsIdx_DeleteCustomer, &RespFieldsDesc_DeleteCustomer, &inicioRespStruct_DeleteCustomer, 51, sizeof(DELETE_CUSTOMER_RESP_STRUCT),&RespFieldsType_DeleteCustomer},
-  {&RespFieldsIdx_SimpleQueryTx, &RespFieldsDesc_SimpleQueryTx, &inicioRespStruct_SimpleQueryTx, 51, sizeof(SIMPLE_QUERY_TX_RESP_STRUCT),&RespFieldsType_SimpleQueryTx},
-  {&RespFieldsIdx_QueryCardNumber, &RespFieldsDesc_QueryCardNumber, &inicioRespStruct_QueryCardNumber, 51, sizeof(QUERY_CARD_NUMBER_RESP_STRUCT),&RespFieldsType_QueryCardNumber},
-  {&RespFieldsIdx_QueryCardDetails, &RespFieldsDesc_QueryCardDetails, &inicioRespStruct_QueryCardDetails, 51, sizeof(QUERY_CARD_DETAILS_RESP_STRUCT),&RespFieldsType_QueryCardDetails},
-  {&RespFieldsIdx_QueryTxs, &RespFieldsDesc_QueryTxs, &inicioRespStruct_QueryTxs, 51, sizeof(QUERY_TXS_RESP_STRUCT),&RespFieldsType_QueryTxs},
-  {&RespFieldsIdx_GetIINDetails, &RespFieldsDesc_GetIINDetails, &inicioRespStruct_GetIINDetails, 51, sizeof(GET_IIN_DETAILS_RESP_STRUCT),&RespFieldsType_GetIINDetails},
-  {&RespFieldsIdx_ChangeSecretKey, &RespFieldsDesc_ChangeSecretKey, &inicioRespStruct_ChangeSecretKey, 51, sizeof(CHANGE_SECRET_KEY_RESP_STRUCT),&RespFieldsType_ChangeSecretKey},
-  {&RespFieldsIdx_FraudScreening, &RespFieldsDesc_FraudScreening, &inicioRespStruct_FraudScreening, 51, sizeof(FRAUD_SCREENING_RESP_STRUCT),&RespFieldsType_FraudScreening},
-  {&RespFieldsIdx_CreateClientSession, &RespFieldsDesc_CreateClientSession, &inicioRespStruct_CreateClientSession, 51, sizeof(CREATE_CLIENT_SESSION_RESP_STRUCT),&RespFieldsType_CreateClientSession},
-  {&RespFieldsIdx_GetInstallmentsOptions, &RespFieldsDesc_GetInstallmentsOptions, &inicioRespStruct_GetInstallmentsOptions, 51, sizeof(GET_INSTALLMENTS_OPTIONS_RESP_STRUCT),&RespFieldsType_GetInstallmentsOptions},
-  {&RespFieldsIdx_NotifyFraudScreeningReview, &RespFieldsDesc_NotifyFraudScreeningReview, &inicioRespStruct_NotifyFraudScreeningReview, 51, sizeof(NOTIFY_FRAUD_SCREENING_REVIEW_RESP_STRUCT),&RespFieldsType_NotifyFraudScreeningReview},
+  {&RespFieldsIdx_PayOnLine_2p, &RespFieldsDesc_PayOnLine_2p, &inicioRespStruct_PayOnLine_2p, 51, sizeof(PAY_ONLINE_2P_RESP_STRUCT),&RespFieldsType_PayOnLine_2p, NULL},
+  {&RespFieldsIdx_Authorize_2p, &RespFieldsDesc_Authorize_2p, &inicioRespStruct_Authorize_2p, 51, sizeof(AUTHORIZE_2P_RESP_STRUCT),&RespFieldsType_Authorize_2p, NULL},
+  {&RespFieldsIdx_Refund, &RespFieldsDesc_Refund, &inicioRespStruct_Refund, 51, sizeof(REFUND_RESP_STRUCT),&RespFieldsType_Refund, NULL},
+  {&RespFieldsIdx_Capture, &RespFieldsDesc_Capture, &inicioRespStruct_Capture, 51, sizeof(CAPTURE_RESP_STRUCT),&RespFieldsType_Capture, NULL},
+  {&RespFieldsIdx_BankPayment_2p, &RespFieldsDesc_BankPayment_2p, &inicioRespStruct_BankPayment_2p, 51, sizeof(BANK_PAYMENT_2P_RESP_STRUCT),&RespFieldsType_BankPayment_2p, NULL},
+  {&RespFieldsIdx_SplitPayOnLine_2p, &RespFieldsDesc_SplitPayOnLine_2p, &inicioRespStruct_SplitPayOnLine_2p, 51, sizeof(SPLIT_PAY_ONLINE_2P_RESP_STRUCT),&RespFieldsType_SplitPayOnLine_2p, NULL},
+  {&RespFieldsIdx_SplitAuthorize_2p, &RespFieldsDesc_SplitAuthorize_2p, &inicioRespStruct_SplitAuthorize_2p, 51, sizeof(SPLIT_AUTHORIZE_2P_RESP_STRUCT),&RespFieldsType_SplitAuthorize_2p, NULL},
+  {&RespFieldsIdx_PayOnLine_3p, &RespFieldsDesc_PayOnLine_3p, &inicioRespStruct_PayOnLine_3p, 51, sizeof(PAY_ONLINE_3P_RESP_STRUCT),&RespFieldsType_PayOnLine_3p, NULL},
+  {&RespFieldsIdx_SplitPayOnLine_3p, &RespFieldsDesc_SplitPayOnLine_3p, &inicioRespStruct_SplitPayOnLine_3p, 51, sizeof(SPLIT_PAY_ONLINE_3P_RESP_STRUCT),&RespFieldsType_SplitPayOnLine_3p, NULL},
+  {&RespFieldsIdx_Authorize_3p, &RespFieldsDesc_Authorize_3p, &inicioRespStruct_Authorize_3p, 51, sizeof(AUTHORIZE_3P_RESP_STRUCT),&RespFieldsType_Authorize_3p, NULL},
+  {&RespFieldsIdx_SplitAuthorize_3p, &RespFieldsDesc_SplitAuthorize_3p, &inicioRespStruct_SplitAuthorize_3p, 51, sizeof(SPLIT_AUTHORIZE_3P_RESP_STRUCT),&RespFieldsType_SplitAuthorize_3p, NULL},
+  {&RespFieldsIdx_BankPayment_3p, &RespFieldsDesc_BankPayment_3p, &inicioRespStruct_BankPayment_3p, 51, sizeof(BANK_PAYMENT_3P_RESP_STRUCT),&RespFieldsType_BankPayment_3p, NULL},
+  {&RespFieldsIdx_CashPayment_3p, &RespFieldsDesc_CashPayment_3p, &inicioRespStruct_CashPayment_3p, 51, sizeof(CASH_PAYMENT_3P_RESP_STRUCT),&RespFieldsType_CashPayment_3p, NULL},
+  {&RespFieldsIdx_CreatePaymentMethod, &RespFieldsDesc_CreatePaymentMethod, &inicioRespStruct_CreatePaymentMethod, 51, sizeof(CREATE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_CreatePaymentMethod, NULL},
+  {&RespFieldsIdx_CreatePaymentMethodToken, &RespFieldsDesc_CreatePaymentMethodToken, &inicioRespStruct_CreatePaymentMethodToken, 51, sizeof(CREATE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_CreatePaymentMethodToken, NULL},
+  {&RespFieldsIdx_RetrievePaymentMethodToken, &RespFieldsDesc_RetrievePaymentMethodToken, &inicioRespStruct_RetrievePaymentMethodToken, 51, sizeof(RETRIEVE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_RetrievePaymentMethodToken, NULL},
+  {&RespFieldsIdx_CreatePaymentMethodFromPayment, &RespFieldsDesc_CreatePaymentMethodFromPayment, &inicioRespStruct_CreatePaymentMethodFromPayment, 51, sizeof(CREATE_PAYMENT_METHOD_FROM_PAYMENT_RESP_STRUCT),&RespFieldsType_CreatePaymentMethodFromPayment, NULL},
+  {&RespFieldsIdx_RetrievePaymentMethod, &RespFieldsDesc_RetrievePaymentMethod, &inicioRespStruct_RetrievePaymentMethod, 51, sizeof(RETRIEVE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_RetrievePaymentMethod, NULL},
+  {&RespFieldsIdx_UpdatePaymentMethod, &RespFieldsDesc_UpdatePaymentMethod, &inicioRespStruct_UpdatePaymentMethod, 51, sizeof(UPDATE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_UpdatePaymentMethod, NULL},
+  {&RespFieldsIdx_DeletePaymentMethod, &RespFieldsDesc_DeletePaymentMethod, &inicioRespStruct_DeletePaymentMethod, 51, sizeof(DELETE_PAYMENT_METHOD_RESP_STRUCT),&RespFieldsType_DeletePaymentMethod, NULL},
+  {&RespFieldsIdx_RecachePaymentMethodToken, &RespFieldsDesc_RecachePaymentMethodToken, &inicioRespStruct_RecachePaymentMethodToken, 51, sizeof(RECACHE_PAYMENT_METHOD_TOKEN_RESP_STRUCT),&RespFieldsType_RecachePaymentMethodToken, NULL},
+  {&RespFieldsIdx_CreateCustomer, &RespFieldsDesc_CreateCustomer, &inicioRespStruct_CreateCustomer, 51, sizeof(CREATE_CUSTOMER_RESP_STRUCT),&RespFieldsType_CreateCustomer, NULL},
+  {&RespFieldsIdx_RetrieveCustomer, &RespFieldsDesc_RetrieveCustomer, &inicioRespStruct_RetrieveCustomer, 51, sizeof(RETRIEVE_CUSTOMER_RESP_STRUCT),&RespFieldsType_RetrieveCustomer, NULL},
+  {&RespFieldsIdx_UpdateCustomer, &RespFieldsDesc_UpdateCustomer, &inicioRespStruct_UpdateCustomer, 51, sizeof(UPDATE_CUSTOMER_RESP_STRUCT),&RespFieldsType_UpdateCustomer, NULL},
+  {&RespFieldsIdx_DeleteCustomer, &RespFieldsDesc_DeleteCustomer, &inicioRespStruct_DeleteCustomer, 51, sizeof(DELETE_CUSTOMER_RESP_STRUCT),&RespFieldsType_DeleteCustomer, NULL},
+  {&RespFieldsIdx_SimpleQueryTx, &RespFieldsDesc_SimpleQueryTx, &inicioRespStruct_SimpleQueryTx, 51, sizeof(SIMPLE_QUERY_TX_RESP_STRUCT),&RespFieldsType_SimpleQueryTx, NULL},
+  {&RespFieldsIdx_QueryCardNumber, &RespFieldsDesc_QueryCardNumber, &inicioRespStruct_QueryCardNumber, 51, sizeof(QUERY_CARD_NUMBER_RESP_STRUCT),&RespFieldsType_QueryCardNumber, NULL},
+  {&RespFieldsIdx_QueryCardDetails, &RespFieldsDesc_QueryCardDetails, &inicioRespStruct_QueryCardDetails, 51, sizeof(QUERY_CARD_DETAILS_RESP_STRUCT),&RespFieldsType_QueryCardDetails, NULL},
+  {&RespFieldsIdx_QueryTxs, &RespFieldsDesc_QueryTxs, &inicioRespStruct_QueryTxs, 51, sizeof(QUERY_TXS_RESP_STRUCT),&RespFieldsType_QueryTxs, NULL},
+  {&RespFieldsIdx_GetIINDetails, &RespFieldsDesc_GetIINDetails, &inicioRespStruct_GetIINDetails, 51, sizeof(GET_IIN_DETAILS_RESP_STRUCT),&RespFieldsType_GetIINDetails, NULL},
+  {&RespFieldsIdx_ChangeSecretKey, &RespFieldsDesc_ChangeSecretKey, &inicioRespStruct_ChangeSecretKey, 51, sizeof(CHANGE_SECRET_KEY_RESP_STRUCT),&RespFieldsType_ChangeSecretKey, NULL},
+  {&RespFieldsIdx_FraudScreening, &RespFieldsDesc_FraudScreening, &inicioRespStruct_FraudScreening, 51, sizeof(FRAUD_SCREENING_RESP_STRUCT),&RespFieldsType_FraudScreening, NULL},
+  {&RespFieldsIdx_CreateClientSession, &RespFieldsDesc_CreateClientSession, &inicioRespStruct_CreateClientSession, 51, sizeof(CREATE_CLIENT_SESSION_RESP_STRUCT),&RespFieldsType_CreateClientSession, NULL},
+  {&RespFieldsIdx_GetInstallmentsOptions, &RespFieldsDesc_GetInstallmentsOptions, &inicioRespStruct_GetInstallmentsOptions, 51, sizeof(GET_INSTALLMENTS_OPTIONS_RESP_STRUCT),&RespFieldsType_GetInstallmentsOptions, NULL},
+  {&RespFieldsIdx_NotifyFraudScreeningReview, &RespFieldsDesc_NotifyFraudScreeningReview, &inicioRespStruct_NotifyFraudScreeningReview, 51, sizeof(NOTIFY_FRAUD_SCREENING_REVIEW_RESP_STRUCT),&RespFieldsType_NotifyFraudScreeningReview, NULL},
 };
 
 int setLog(enum log_level logLevel, char * LogFileName , FILE * logFd);
-int setEnvironment(int iEnv);
+int setEnvironment(enum envs iEnv);
 int getEnvironment();
 int sendRequest(int type, char *apiKey,  char *pRequest, char *pResponse);
 #ifdef __cplusplus

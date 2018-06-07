@@ -2660,16 +2660,25 @@ int SendNotifyFraudScreeningReview(void) {
 int main( int argc, char **argv)
 {
  
-  int env=3;
+  int logLevel=0;
+  int env=SANBOX_ENV;
   int type = 0;
   int i,index;
   int c;
 
   FILE * auxFd = fopen ( "log_de_mi_app.log", "a" ) ;
   fprintf( auxFd, "**********************Comienza prueba\n");
-  setLog( INFO, NULL, NULL);
-  fprintf( auxFd, "********************** ya abri log\n");
+  logLevel=getLogLevel();
 
+  if (setLog( INFO, NULL, NULL)<0) {
+    printf ("-1\n");
+    return;
+  }
+  
+  if (setEnvironment(env)<0)
+    return;  
+
+  
   printf ("argc [%d]\n", argc);
   while ((c = getopt (argc, argv, "a:t:u:m:c:p:i:e:s:")) != -1)
     switch (c)  {
@@ -2679,8 +2688,9 @@ int main( int argc, char **argv)
       case 'e':
 	env = getEnvironment();
         env = atoi(optarg);
-	setEnvironment(env);
-	fprintf( auxFd, "********************** env [%d]\n", env);
+	if (setEnvironment(env)<0)
+	  return;
+	//fprintf( auxFd, "********************** env [%d]\n", env);
 	env = getEnvironment();
         break;
       case 't':
@@ -2789,12 +2799,29 @@ int main( int argc, char **argv)
     case CREATE_CLIENT_SESSION_TYPE: SendCreateClientSession(); break;
     case GET_INSTALLMENTS_OPTIONS_TYPE: SendGetInstallmentsOptions(); break;
     case NOTIFY_FRAUD_SCREENING_REVIEW_TYPE: SendNotifyFraudScreeningReview(); break;
-
-         printf("type %d-%s not ready\n",type, GET_SOAP_ACTION(type)); break;
-    defaul: printf("Invalid type[%d]\n", type); break;
+    default: printf("Invalid type[%d]\n", type); break;
 
   }
-  fprintf( auxFd, "********************** listo \n");
+  //fprintf( auxFd, "********************** listo \n");
   //LogClose();
 
 }
+/*
+int main( int argc, char **argv)
+{
+ 
+  int env=SANBOX_ENV; /*PROD_ENV | SANBOX_ENV | STAGING_ENV*//*
+
+  FILE * auxFd = fopen ( "test.log", "a" ) ;
+
+  if (setLog( DEBUG, NULL, auxFd)<0)
+    return;
+
+  if (setEnvironment(env)<0)
+    return;
+
+  SendPayOnLine_2p();
+
+  LogClose();
+
+}*/

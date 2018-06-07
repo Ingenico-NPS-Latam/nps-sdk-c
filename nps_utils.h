@@ -20,8 +20,6 @@ typedef struct  {
 
 static FILE  * LogFd      = NULL;
 static char  MISC_LoggerFileName [ 512 ] ;
-static enum log_level NpsLogLevel=INFO;
-static int debug=0;
 static int MAX_LEN_LINE=4096;
 
 static merchantNotAddServiceStruct GetMerchDetNotAddServices[] = {
