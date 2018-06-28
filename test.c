@@ -1499,9 +1499,17 @@ int SendPayOnLine_2p(void) {
     pResponse = &Response;
     showRequest(PAY_ONLINE_2P_TYPE,(char *)pRequest);
     //sendRequest(npsUrl, PAY_ONLINE_2P_TYPE, apiKey, (char *)pRequest, pResponse) ;
-    sendRequest(PAY_ONLINE_2P_TYPE, apiKey, (char *)pRequest, pResponse) ;    
-    printf("\n******************************************************\n");
-    showResponse(PAY_ONLINE_2P_TYPE,(char *)pResponse);
+    if (sendRequest(PAY_ONLINE_2P_TYPE, apiKey, (char *)pRequest, pResponse) < 0) {
+      printf("%s\n", getNpsErrDesc());
+    }
+    else {
+      if (pResponse->psp_ResponseCod && pResponse->psp_ResponseMsg) {
+        printf("psp_ResponseCod [%s]\n", pResponse->psp_ResponseCod);
+        printf("psp_ResponseMsg [%s]\n", pResponse->psp_ResponseMsg);
+      }
+      
+      showResponse(PAY_ONLINE_2P_TYPE,(char *)pResponse);
+    }
     
   return 0;
 }
@@ -2177,6 +2185,7 @@ int SendCreatePaymentMethod(void) {
     //sendRequest(npsUrl, CREATE_PAYMENT_METHOD_TYPE, apiKey, (char *)pRequest, pResponse) ;
     sendRequest(CREATE_PAYMENT_METHOD_TYPE, apiKey, (char *)pRequest, pResponse) ;    
     printf("\n******************************************************\n");
+    
     showResponse(CREATE_PAYMENT_METHOD_TYPE,(char *)pResponse);
     
   return 0;
@@ -2669,11 +2678,17 @@ int main( int argc, char **argv)
   FILE * auxFd = fopen ( "log_de_mi_app.log", "a" ) ;
   fprintf( auxFd, "**********************Comienza prueba\n");
   logLevel=getLogLevel();
+/*  if (setConnTimeout(5) <0) {
+    return;
+  }*/
 
-  if (setLog( INFO, NULL, NULL)<0) {
+  if (setLog( DEBUG, NULL, NULL)<0) {
     printf ("-1\n");
     return;
   }
+/*  if (setExecTimeout(0) <0) {
+    return;
+  }*/
   
   if (setEnvironment(env)<0)
     return;  

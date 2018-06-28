@@ -25,8 +25,14 @@ int setLog(enum log_level logLevel, char * LogFileName , FILE  * logFd) {
 
 int setEnvironment(enum envs iEnv) {
 
+  if (iEnv<PROD_ENV || iEnv>STAGE_ENV) {
+    Log(ERROR, "Invalid Environment. PROD_ENV[%d], SANDBOX_ENV[%d], STAGE_ENV[%d]",PROD_ENV,SANBOX_ENV,STAGE_ENV);
+    sprintf(NpsErrDesc, "Invalid Environment. PROD_ENV[%d], SANDBOX_ENV[%d], STAGE_ENV[%d]",PROD_ENV,SANBOX_ENV,STAGE_ENV);
+    return -1;
+  }
   if ((NpsLogLevel==DEBUG) && (iEnv==PROD_ENV)) {
     Log(ERROR, "Can't set PRODUCTION env using DEBUG log level");
+    sprintf(NpsErrDesc, "%s", "Can't set PRODUCTION env using DEBUG log level");
     return -1;
   }
   NpsEnvField=iEnv;
@@ -40,6 +46,35 @@ int setEnvironment(enum envs iEnv) {
   return 0;
 };
 
+int setConnTimeout(int conn_timeout){
+  if (conn_timeout <= 0) {
+    Log(ERROR, "Connection timout must be greater than zero");
+    sprintf(NpsErrDesc, "%s", "Connection timout must be greater than zero");
+    return -1;
+  }
+  NpsConnTimeout=conn_timeout;
+  return 0;
+}
+
+int setExecTimeout(int exec_timeout){
+  if (exec_timeout <= 0) {
+    Log(ERROR, "Execution timout must be greater than zero");
+    sprintf(NpsErrDesc, "%s", "Execution timout must be greater than zero");
+    return -1;
+  }
+
+  NpsExecTimeout=exec_timeout;
+  return 0;
+}
+
+int getConnTimeout(){
+  return(NpsConnTimeout);
+}
+
+int getExecTimeout(){
+  return(NpsExecTimeout);
+}
+
 int getEnvironment() {
 
   return NpsEnvField;
@@ -49,6 +84,10 @@ int getLogLevel() {
 
   return NpsLogLevel;
 };
+
+char *getNpsErrDesc() {
+  return NpsErrDesc;
+}
 
 struct MemoryStruct {
   char *memory;
@@ -61,6 +100,7 @@ static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *co
   mem->memory = realloc(mem->memory, mem->size + bytec + 1);
   if(mem->memory == NULL) {
     Log(ERROR,"not enough memory (realloc returned NULL)\n");
+    sprintf(NpsErrDesc,"not enough memory (realloc returned NULL)\n");
     return 0;
   }
   memcpy(&(mem->memory[mem->size]), ptr, bytec);
@@ -149,12 +189,14 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
   xmlNode        *root, *first_child, *node;  
   char url[100];
   int envField = getEnvironment();
+  int connTimeout, execTimout;
+  memset(NpsErrDesc,0, strlen(NpsErrDesc));
  
   switch (envField) {
     case PROD_ENV: sprintf(url,"https://services2.nps.com.ar/ws.php"); break;
-    case SANBOX_ENV: sprintf(url, "https://sandbox.nps.com.ar:443/ws.php");break;
-    //case STAGE_ENV: https://implementacion.nps.com.ar/ws.php"; break; 
-    case STAGE_ENV: sprintf(url,"https://psp.localhost:443/ws.php"); break;
+    case SANBOX_ENV: sprintf(url, "https://sandbox.nps.com.ar/ws.php");break;
+    case STAGE_ENV:  sprintf(url,"https://implementacion.nps.com.ar/ws.php"); break; 
+    //case STAGE_ENV: sprintf(url,"https://psp.localhost:443/ws.php"); break;
   }
   Log(INFO, " sendrequest to [%s]",url); 
 
@@ -187,6 +229,9 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
     compose_soap_frobnicate(type, soap, pOut->data, pOut->size, soap_size);
 
     Log(DEBUG,"soap (%d) [%s]", soap_size,soap);
+    
+    connTimeout=getConnTimeout();
+    execTimout=getExecTimeout();
 
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, soap);
     curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_BASIC);
@@ -194,6 +239,8 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
     curl_easy_setopt(curl, CURLOPT_PASSWORD, "password");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, execTimout);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, connTimeout);    
 
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "Content-Type: text/xml; charset=utf-8");
@@ -216,6 +263,9 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
     if(res != CURLE_OK) {
       fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
       Log(ERROR, "curl_easy_perform() failed: %s", curl_easy_strerror(res));
+      memset(pResponse, 0, methodsRespFields[type-1].structSize);
+      sprintf(NpsErrDesc,"curl_easy_perform() failed: %s", curl_easy_strerror(res));
+      return -1;
     } else {
       Log(DEBUG, "RESPONSE:\n %s\n",chunk.memory);
     }

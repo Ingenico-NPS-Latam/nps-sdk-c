@@ -23,6 +23,9 @@ static enum log_level {
   DEBUG=7
 };
 
+static char NpsErrDesc[200];
+static int NpsConnTimeout=10;
+static int NpsExecTimeout=60;
 static int NpsEnvField=3;
 static char pref_env[3];
 static const ERR_OFFSET=-1;

@@ -9243,9 +9243,12 @@ static struct nps_generics methodsRespFields[]=
   {&RespFieldsIdx_NotifyFraudScreeningReview, &RespFieldsDesc_NotifyFraudScreeningReview, &inicioRespStruct_NotifyFraudScreeningReview, 51, sizeof(NOTIFY_FRAUD_SCREENING_REVIEW_RESP_STRUCT),&RespFieldsType_NotifyFraudScreeningReview, NULL},
 };
 
+int setConnTimeout(int conn_timeout);
+int setExecTimeout(int exec_timeout);
 int setLog(enum log_level logLevel, char * LogFileName , FILE * logFd);
 int setEnvironment(enum envs iEnv);
 int getEnvironment();
+char *getNpsErrDesc();
 int sendRequest(int type, char *apiKey,  char *pRequest, char *pResponse);
 #ifdef __cplusplus
 }
