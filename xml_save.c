@@ -317,10 +317,12 @@ void serializeRequest(int type, char *pRequest, char *pOut) {
     }    
     
     ptr=(char*) pRequest + methodsFields[type-1].structFieldsOffset[(i*ARR_OFFSET_COUNT)];
-    Log(DEBUG, "%s = %s", methodsFields[type-1].structFieldsDesc[i], structFieldsDesc[i], (char *)(*ptr));
+    Log(DEBUG, "%s = %s (%d *%d)", methodsFields[type-1].structFieldsDesc[i], structFieldsDesc[i], ptr, *ptr);
     
-    if (structFieldsType[i]) 
-      serialize_Structure(structFieldsDesc[i], structFieldsType[i]->structXsiType, (char *)(*ptr), (struct Buffer *)pOut, structFieldsType[i]);
+    if (structFieldsType[i]) {
+      if (*ptr)
+        serialize_Structure(structFieldsDesc[i], structFieldsType[i]->structXsiType, (char *)(*ptr), (struct Buffer *)pOut, structFieldsType[i]);
+    }
     else 
       serialize_string(structFieldsDesc[i], (char *)(*ptr), (struct Buffer *)pOut);
   }
