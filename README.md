@@ -6,7 +6,7 @@
     sudo apt-get install libcurl4-openssl-dev libssl-dev
     
     
-### ·XML
+### · XML
     sudo apt-get install libxml2-dev
 
 ##  How to use it
