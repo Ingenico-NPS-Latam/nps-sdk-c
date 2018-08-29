@@ -557,9 +557,15 @@ int AddExtraInf(int type, char *pRequest) {
     Log(ERROR, "AddExtraInf [%s] not in request", PSP_MERCHANTADDITIONALDETAILS_FIELD_DESC);
     return;
   }
-  
+
+  //BORRAR
+  Log(INFO, "AddExtraInf [%s] found at [%d]", PSP_MERCHANTADDITIONALDETAILS_FIELD_DESC, i);
   ptr=(char*) pRequest + methodsFields[type-1].structFieldsOffset[(i*ARR_OFFSET_COUNT)];
   
+  if (!*ptr) {
+     Log(ERROR, "AddExtraInf [%s] not in request", PSP_MERCHANTADDITIONALDETAILS_FIELD_DESC);
+    return;
+  }
   ptrAux=structFieldsType[i];  
   structFieldsType=structFieldsType[i];  
 
@@ -573,17 +579,20 @@ int AddExtraInf(int type, char *pRequest) {
   
   if (i>=0)
     sdkInfo=(char*) *ptr + structFieldsOffset[(i*ARR_OFFSET_COUNT)];
-    
+  
   if (!*sdkInfo) {
-    *sdkInfo=(char *)calloc(strlen(SDK_VERSION) + strlen(SDK_NAME) + 1, sizeof(char));
-    memset(*sdkInfo, 0, sizeof(strlen(SDK_VERSION) + strlen(SDK_NAME)));
+    *sdkInfo=(char *)calloc(strlen(SDK_VERSION) + strlen(" Version: ") + strlen(SDK_NAME) + 1, sizeof(char));
+    if (!*sdkInfo) {
+      return;
+    }
+    memset(*sdkInfo, 0, sizeof(strlen(SDK_VERSION) + strlen(" Version: ") + strlen(SDK_NAME)));
   } else {
     if (strlen(*sdkInfo) < (strlen(SDK_VERSION) + strlen(SDK_NAME)+1)) {
       *sdkInfo=(char *)realloc(*sdkInfo,strlen(SDK_VERSION) + strlen(SDK_NAME) + 1);
     }
   }
   
-  sprintf(*sdkInfo, "%s%s", SDK_NAME, SDK_VERSION);
+  sprintf(*sdkInfo, "%s Version: %s", SDK_NAME, SDK_VERSION);
   
   if (!*sdkInfo) 
     Log(DEBUG, "sdkInfo done (NULL)");
@@ -849,6 +858,9 @@ void showRequest(int type,char *pRequest) {
       offset=i*ARR_OFFSET_COUNT;
 
       ptr=(char*) pRequest + methodsFields[type-1].structFieldsOffset[offset];
+      
+      //BORRAR
+      //Log(DEBUG, "%s = (%d *%d)", structFieldsDesc[i], ptr, *ptr);
       
       if (structFieldsType[i]) {
 	showRequestStruct((char *)(*ptr), structFieldsType[i], structFieldsDesc[i], "  ");

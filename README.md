@@ -1,12 +1,17 @@
 #  C SDK (Beta Under Development)
 
 ##  Pre Requesites
-sudo apt-get install libcurl4-openssl-dev
-sudo apt-get install libxml2-dev libxml2-doc
+
+###· SSL
+    sudo apt-get install libcurl4-openssl-dev libssl-dev
+    
+    
+###· XML
+    sudo apt-get install libxml2-dev
 
 ##  How to use it
 
-* Download and build locally: `go get github.com/Ingenico-NPS-Latam/nps-sdk-c/npsSdk`
+* Clone or [here](https://github.com/Ingenico-NPS-Latam/nps-sdk-c) and build locally: `git clone github.com/Ingenico-NPS-Latam/nps-sdk-c/npsSdk`
 * test.c it's just an example of how to use the sdk
 
 ##  How to Build

@@ -7089,6 +7089,7 @@ static char *ReqFieldsDesc_CreatePaymentMethodFromPayment[]=
     PSP_SETASCUSTOMERDEFAULT_FIELD_DESC,
     PSP_POSDATETIME_FIELD_DESC,
     PSP_SECUREHASH_FIELD_DESC,
+    NULL,
 };
 
 static size_t inicioReqStruct_CreatePaymentMethodFromPayment[][ARR_OFFSET_COUNT]=
@@ -9088,6 +9089,7 @@ static char *ReqFieldsDesc_NotifyFraudScreeningReview[]=
     PSP_USERID_FIELD_DESC,
     PSP_POSDATETIME_FIELD_DESC,
     PSP_SECUREHASH_FIELD_DESC,
+    NULL,
 };
 
 static size_t inicioReqStruct_NotifyFraudScreeningReview[][ARR_OFFSET_COUNT]=

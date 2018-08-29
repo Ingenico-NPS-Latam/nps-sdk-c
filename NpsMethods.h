@@ -35,8 +35,8 @@ static int debug=0;
 
 #define SDK_ENV_COUNT                       4
 #define ARR_OFFSET_COUNT                    4
-#define SDK_VERSION                         "1.0"
-#define SDK_NAME                            "CLANG SDK "
+#define SDK_VERSION                         "1.3"
+#define SDK_NAME                            "CLANG SDK"
 #define PAY_ONLINE_2P                       "PayOnLine_2p"
 #define AUTHORIZE_2P                        "Authorize_2p"
 #define QUERY_TXS                           "QueryTxs"
