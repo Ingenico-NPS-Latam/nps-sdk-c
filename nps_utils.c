@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <md5.h>
+#include <openssl/hmac.h>
 #include <time.h>
 #include <assert.h>
 #include <stdarg.h>            /* var...                */
@@ -378,6 +379,19 @@ void compute_md5(char *str, char *psp_SecureHash) {
      sprintf(&psp_SecureHash[i*2], "%02x", (unsigned int)digest[i]);    
 }
 
+void compute_hmac(char *data, char *key, char *psp_SecureHash) {
+  char res_hexstring[64];
+  unsigned char *result;
+
+    Log(DEBUG,"compute_hmac Init");
+
+  result = HMAC(EVP_sha256(), key, strlen(key), data, strlen(data), NULL, NULL);
+
+  for (int i = 0; i < 32; i++) {
+    sprintf(&psp_SecureHash[i * 2], "%02x", result[i]);
+  }
+}
+
 int ConcatOrderValues(char *apiKey, char *pRequest, char **sortValues) {
   int i, valuesLen=0;
 
@@ -506,9 +520,27 @@ int setSecureHash(int type,char *apiKey, char *pRequest) {
   
   
   FillSortTable(type, pRequest);
+/*
+  CREAMOS 
+  ConcatOrderValues("",pRequest, &concatvalues);
+  Log(DEBUG,"concatvalues for HMAC %s",concatvalues);
+  Log(DEBUG,"apiKey for HMAC %s",apiKey);
 
+  ASIGNAMOS LA MEMORIA NECESARIA A SECURE_HASH
+  if (i>=0)
+    secureHash=(char*) pRequest + structFieldsOffset[(i*ARR_OFFSET_COUNT)];
+    
+  if (!*secureHash) {
+    *secureHash=(char *)calloc(65, sizeof(char));
+  }
+
+  LLAMAMOS A LA FUNCION
+  compute_hmac(concatvalues, apiKey, *secureHash);
+  Log(DEBUG, "secureHash %s",*secureHash);
+*/
+  
   ConcatOrderValues(apiKey,pRequest, &concatvalues);
-  Log(DEBUG,"concatvalues %s",concatvalues);
+  Log(DEBUG,"concatvalues for MD5 %s",concatvalues);
   i=GetFieldIdxByDesc(PSP_SECUREHASH_FIELD_DESC, type, pRequest, NULL);
  
   structFieldsOffset=methodsFields[type-1].structFieldsOffset;
@@ -519,9 +551,9 @@ int setSecureHash(int type,char *apiKey, char *pRequest) {
   if (!*secureHash) {
     *secureHash=(char *)calloc(33, sizeof(char));
   }
-  
+
   compute_md5(concatvalues, *secureHash);
-  
+
   if (!*secureHash) 
     Log(DEBUG, "secureHash NULL");
   else
@@ -1038,3 +1070,4 @@ void checkEnvFields(int type,char *pRequest) {
   }
   Log(DEBUG,"checkEnvFields: done");
 }
+

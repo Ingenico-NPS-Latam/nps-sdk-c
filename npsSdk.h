@@ -6977,6 +6977,7 @@ static char *ReqFieldsDesc_RetrievePaymentMethodToken[]=
     PSP_MERCHANTID_FIELD_DESC,
     PSP_PAYMENTMETHODTOKEN_FIELD_DESC,
     PSP_CLIENTSESSION_FIELD_DESC,
+    NULL,
 };
 
 static size_t inicioReqStruct_RetrievePaymentMethodToken[][ARR_OFFSET_COUNT]=

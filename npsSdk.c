@@ -195,8 +195,8 @@ int sendRequest(int type, char *apiKey, char *pRequest, char *pResponse) {
   switch (envField) {
     case PROD_ENV: sprintf(url,"https://services2.nps.com.ar/ws.php"); break;
     case SANBOX_ENV: sprintf(url, "https://sandbox.nps.com.ar/ws.php");break;
-    case STAGE_ENV:  sprintf(url,"https://implementacion.nps.com.ar/ws.php"); break; 
-    //case STAGE_ENV: sprintf(url,"https://psp.localhost:443/ws.php"); break;
+    //case STAGE_ENV:  sprintf(url,"https://implementacion.nps.com.ar/ws.php"); break; 
+    case STAGE_ENV: sprintf(url,"https://psp.localhost:443/ws.php"); break;
   }
   Log(INFO, " sendrequest to [%s]",url); 
 

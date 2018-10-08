@@ -582,9 +582,10 @@ The "DEBUG" level will write information about the request to let developers deb
 ```
 you can change the timeout of the request.
 
+ConnectionTimeout(Default=10 seconds): you can change the connection timeout of the request.
+
 ExecutionTimeout(Default=60 seconds): you can change the execution timeout of the request.
 
-ConnectionTimeout(Default=10 seconds): you can change the connection timeout of the request.
 
 ```test.c
 #include <ctype.h>
@@ -601,12 +602,12 @@ ConnectionTimeout(Default=10 seconds): you can change the connection timeout of 
 int main( int argc, char **argv)
 {
 
-  if (setConnTimeout(5) <0) {
+  if (setConnTimeout(10) <0) {
     printf("ERROR: %s", getNpsErrDesc());
     return;
   }
 
-  if (setExecTimeout(30) <0) {
+  if (setExecTimeout(60) <0) {
     printf("ERROR: %s", getNpsErrDesc());
     return;
   }
