@@ -1506,6 +1506,7 @@ int SendPayOnLine_2p(void) {
       if (pResponse->psp_ResponseCod && pResponse->psp_ResponseMsg) {
         printf("psp_ResponseCod [%s]\n", pResponse->psp_ResponseCod);
         printf("psp_ResponseMsg [%s]\n", pResponse->psp_ResponseMsg);
+    
       }
       
       showResponse(PAY_ONLINE_2P_TYPE,(char *)pResponse);
@@ -1558,6 +1559,28 @@ int SendAuthorize_2p(void) {
     //sendRequest(npsUrl, AUTHORIZE_2P_TYPE, apiKey, (char *)pRequest, pResponse) ;
     sendRequest(AUTHORIZE_2P_TYPE, apiKey, (char *)pRequest, pResponse) ;    
     printf("\n******************************************************\n");
+
+
+
+    printf("ResponseCode: %s\n", pResponse->psp_ResponseCod);
+
+    AMOUNT_ADDITIONAL_DETAILS_RESPONSE_STRUCT *pAmountAdditionalDetailsResponse;
+    pAmountAdditionalDetailsResponse = pResponse->psp_AmountAdditionalDetails;
+
+    printf("AmountAdditionalDetails: %s\n", pAmountAdditionalDetailsResponse->Tip);
+    printf("AmountAdditionalDetails: %s\n", pResponse->psp_AmountAdditionalDetails->Tip);
+
+    ARRAYOF_TAXESRESPONSESTRUCT *pTaxesResponse;
+    pTaxesResponse = pAmountAdditionalDetailsResponse->Taxes;
+
+    if(pTaxesResponse) {
+      for (i = 0; i < pTaxesResponse->__size; i++) {
+        printf("TypeId[%d]: %s\n", i, pTaxesResponse->__ptr[i]->TypeId);
+      }
+    }
+  
+    printf("Taxes' Size: %d\n", pResponse->psp_AmountAdditionalDetails->Taxes->__size);
+    
     showResponse(AUTHORIZE_2P_TYPE,(char *)pResponse);
   
   return 0;
@@ -2678,165 +2701,20 @@ int main( int argc, char **argv)
   FILE * auxFd = fopen ( "log_de_mi_app.log", "a" ) ;
   fprintf( auxFd, "**********************Comienza prueba\n");
   logLevel=getLogLevel();
-/*  if (setConnTimeout(5) <0) {
-    return;
-  }*/
+
 
   if (setLog( DEBUG, NULL, NULL)<0) {
     printf ("-1\n");
     return;
   }
-/*  if (setExecTimeout(0) <0) {
-    return;
-  }*/
+
   
   if (setEnvironment(env)<0)
     return;  
 
-  
-  printf ("argc [%d]\n", argc);
-  while ((c = getopt (argc, argv, "a:t:u:m:c:p:i:e:s:")) != -1)
-    switch (c)  {
-      case 'a':
-        psp_Amount = optarg;
-        break;
-      case 'e':
-	env = getEnvironment();
-        env = atoi(optarg);
-	if (setEnvironment(env)<0)
-	  return;
-	//fprintf( auxFd, "********************** env [%d]\n", env);
-	env = getEnvironment();
-        break;
-      case 't':
-        type = atoi(optarg);
-        break;
-      case 'u':
-        npsUrl = optarg;
-        break;
-      case 'm':
-        psp_MerchantId = optarg;
-        break;
-      case 'i':
-        psp_TransactionId_Orig = optarg;
-        break;
-      case 'c':
-        psp_CardNumber = optarg;
-        break;
-      case 'p':
-        psp_Product = optarg;
-        break;
-      case 's':
-        psp_ClientSession = optarg;
-        break;
-      case '?':
-        if (optopt == 't') {
-	  printf ("Option -%c requires an integer (1..35).\n", optopt);
-         for (index = PAY_ONLINE_2P_TYPE; index < TOTAL_METHODS; index++)
-           printf ("\t[%02d] = %s\n", index, GET_SOAP_ACTION(index));
-	}
-        else if (optopt == 'a') {
-	  printf ("Option -%c requires an amount argument example: 1000 ($10.00)\n", optopt);
-	}
-        else if (optopt == 'u') {
-	  printf ("Option -%c requires an url argument example: 'https://psp.localhost:443/ws.php'\n", optopt);
-	}
-        else if (optopt == 'm') {
-	  printf ("Option -%c requires a merchant argument example: 'psp_test'\n", optopt);
-	}
-        else if (optopt == 'i') {
-	  printf ("Option -%c requires a TransactionId_orig argument example: '158611'\n", optopt);
-	}
-        else if (optopt == 'p') {
-	  printf ("Option -%c requires a product argument example: 14\n", optopt);
-	}
-        else if (optopt == 'c') {
-	  printf ("Option -%c requires a cardNumber argument example: '4507990000000010'\n", optopt);
-	}
-        else if (optopt == 's') {
-	  printf ("Option -%c requires a clientSession: example 'iYgdiXyl56vszeEpCRGmS1JiNYg1xSnYXzQuiFWP4Q2nTwbPiWwZruUzXmqrXYR9'\n", optopt);
-	}
-        else if (isprint (optopt))
-          printf ("Unknown option `-%c'.\n", optopt);
-        else
-          printf ("Unknown option character `\\x%x'.\n", optopt);
-        return 1;
-      default:
-        abort ();
-      }
-
-  for (index = optind; index < argc; index++)
-    printf ("Non-option argument %s\n", argv[index]);
-  
-  printf ("\turl = %s\n", npsUrl);
-  printf ("\ttype=[%02d](%s)\n", type, GET_SOAP_ACTION(type));
-  printf ("\tmerchant= %s\n",psp_MerchantId);
-  printf ("\tcardNumber= %s\n", psp_CardNumber);
-  printf ("\tcurrency = %s\n", psp_Currency);
-  printf ("\tProduct = %s\n", psp_Product);
-  printf ("\tAmount = %s\n", psp_Amount);
-  printf ("\tCountry = %s\n",psp_Country);
-  printf ("\tTransactionId_orig = %s\n",psp_TransactionId_Orig);
-
-  switch (type) {
-    case PAY_ONLINE_2P_TYPE: SendPayOnLine_2p(); break;
-    case AUTHORIZE_2P_TYPE : SendAuthorize_2p(); break;
-    case REFUND_TYPE: SendRefund(); break;
-    case CAPTURE_TYPE: SendCapture(); break;
-    case BANK_PAYMENT_2P_TYPE: SendBankPayment_2p(); break;
-    case SPLIT_PAY_ONLINE_2P_TYPE: SendSplitPayOnLine_2p(); break;
-    case SPLIT_AUTHORIZE_2P_TYPE: SendSplitAuthorize_2p(); break;    
-    case PAY_ONLINE_3P_TYPE: SendPayOnLine_3p(); break;
-    case SPLIT_PAY_ONLINE_3P_TYPE: SendSplitPayOnLine_3p(); break;
-    case AUTHORIZE_3P_TYPE: SendAuthorize_3p(); break;
-    case SPLIT_AUTHORIZE_3P_TYPE: SendSplitAuthorize_3p(); break;
-    case BANK_PAYMENT_3P_TYPE: SendBankPayment_3p(); break;
-    case CASH_PAYMENT_3P_TYPE: SendCashPayment_3p(); break;
-    case CREATE_PAYMENT_METHOD_TYPE: SendCreatePaymentMethod(); break;
-    case CREATE_PAYMENT_METHOD_TOKEN_TYPE: SendCreatePaymentMethodToken(); break;   
-    case RETRIEVE_PAYMENT_METHOD_TOKEN_TYPE:  SendRetrievePaymentMethodToken(); break;   
-    case CREATE_PAYMENT_METHOD_FROM_PAYMENT_TYPE:  SendCreatePaymentMethodFromPayment(); break;
-    case RETRIEVE_PAYMENT_METHOD_TYPE: SendRetrievePaymentMethod(); break;      
-    case UPDATE_PAYMENT_METHOD_TYPE: SendUpdatePaymentMethod(); break;      
-    case DELETE_PAYMENT_METHOD_TYPE: SendDeletePaymentMethod(); break;      
-    case RECACHE_PAYMENT_METHOD_TOKEN_TYPE: SendRecachePaymentMethodToken(); break;
-    case CREATE_CUSTOMER_TYPE: SendCreateCustomer(); break;
-    case RETRIEVE_CUSTOMER_TYPE: SendRetrieveCustomer(); break;
-    case UPDATE_CUSTOMER_TYPE: SendUpdateCustomer(); break;
-    case DELETE_CUSTOMER_TYPE: SendDeleteCustomer(); break;
-    case SIMPLE_QUERY_TX_TYPE: SendSimpleQueryTx(); break;   
-    case QUERY_CARD_NUMBER_TYPE: SendQueryCardNumber(); break;   
-    case QUERY_CARD_DETAILS_TYPE: SendQueryCardDetails(); break;   
-    case QUERY_TXS_TYPE: SendQueryTxs(); break;   
-    case GET_IIN_DETAILS_TYPE: SendGetIINDetails(); break;
-    case CHANGE_SECRET_KEY_TYPE: SendChangeSecretKey(); break;
-    case FRAUD_SCREENING_TYPE: SendFraudScreening(); break;
-    case CREATE_CLIENT_SESSION_TYPE: SendCreateClientSession(); break;
-    case GET_INSTALLMENTS_OPTIONS_TYPE: SendGetInstallmentsOptions(); break;
-    case NOTIFY_FRAUD_SCREENING_REVIEW_TYPE: SendNotifyFraudScreeningReview(); break;
-    default: printf("Invalid type[%d]\n", type); break;
-
-  }
-  //fprintf( auxFd, "********************** listo \n");
-  //LogClose();
-
-}
-/*
-int main( int argc, char **argv)
-{
- 
-  int env=SANBOX_ENV; /*PROD_ENV | SANBOX_ENV | STAGING_ENV*//*
-
-  FILE * auxFd = fopen ( "test.log", "a" ) ;
-
-  if (setLog( DEBUG, NULL, auxFd)<0)
-    return;
-
-  if (setEnvironment(env)<0)
-    return;
-
+  //SendFraudScreening();
+  //SendAuthorize_2p();
+  //SendRetrievePaymentMethodToken();
+  //SendRetrievePaymentMethod();
   SendPayOnLine_2p();
-
-  LogClose();
-
-}*/
+}

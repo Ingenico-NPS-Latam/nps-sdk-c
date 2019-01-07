@@ -379,16 +379,29 @@ void compute_md5(char *str, char *psp_SecureHash) {
      sprintf(&psp_SecureHash[i*2], "%02x", (unsigned int)digest[i]);    
 }
 
-void compute_hmac(char *data, char *key, char *psp_SecureHash) {
+void compute_hmac256(char *data, char *key, char *psp_SecureHash) {
   char res_hexstring[64];
   unsigned char *result;
 
-    Log(DEBUG,"compute_hmac Init");
+  Log(DEBUG,"compute256_hmac Init");
 
   result = HMAC(EVP_sha256(), key, strlen(key), data, strlen(data), NULL, NULL);
 
   for (int i = 0; i < 32; i++) {
-    sprintf(&psp_SecureHash[i * 2], "%02x", result[i]);
+    sprintf(&psp_SecureHash[i*2], "%02x", result[i]);
+  }
+}
+
+void compute_hmac512(char *data, char *key, char *psp_SecureHash) {
+  char res_hexstring[128];
+  unsigned char *result;
+
+    Log(DEBUG,"compute512_hmac Init");
+
+  result = HMAC(EVP_sha512(), key, strlen(key), data, strlen(data), NULL, NULL);
+
+  for (int i = 0; i < 64; i++) {
+    sprintf(&psp_SecureHash[i*2], "%02x", result[i]);
   }
 }
 
@@ -514,19 +527,17 @@ int setSecureHash(int type,char *apiKey, char *pRequest) {
   size_t *structFieldsOffset;
 
   Log(DEBUG, "setSecureHash Init");
+  
   i=GetFieldIdxByDesc(PSP_SECUREHASH_FIELD_DESC, type, pRequest, NULL);
   if (i<0) 
     return;
-  
-  
-  FillSortTable(type, pRequest);
-/*
-  CREAMOS 
-  ConcatOrderValues("",pRequest, &concatvalues);
-  Log(DEBUG,"concatvalues for HMAC %s",concatvalues);
-  Log(DEBUG,"apiKey for HMAC %s",apiKey);
 
-  ASIGNAMOS LA MEMORIA NECESARIA A SECURE_HASH
+  FillSortTable(type, pRequest);
+  
+  ConcatOrderValues("", pRequest, &concatvalues);
+  
+  structFieldsOffset=methodsFields[type-1].structFieldsOffset;
+
   if (i>=0)
     secureHash=(char*) pRequest + structFieldsOffset[(i*ARR_OFFSET_COUNT)];
     
@@ -534,30 +545,13 @@ int setSecureHash(int type,char *apiKey, char *pRequest) {
     *secureHash=(char *)calloc(65, sizeof(char));
   }
 
-  LLAMAMOS A LA FUNCION
-  compute_hmac(concatvalues, apiKey, *secureHash);
+  compute_hmac256(concatvalues, apiKey, *secureHash);
   Log(DEBUG, "secureHash %s",*secureHash);
-*/
   
-  ConcatOrderValues(apiKey,pRequest, &concatvalues);
-  Log(DEBUG,"concatvalues for MD5 %s",concatvalues);
-  i=GetFieldIdxByDesc(PSP_SECUREHASH_FIELD_DESC, type, pRequest, NULL);
- 
-  structFieldsOffset=methodsFields[type-1].structFieldsOffset;
-  
-  if (i>=0)
-    secureHash=(char*) pRequest + structFieldsOffset[(i*ARR_OFFSET_COUNT)];
-    
-  if (!*secureHash) {
-    *secureHash=(char *)calloc(33, sizeof(char));
-  }
-
-  compute_md5(concatvalues, *secureHash);
-
   if (!*secureHash) 
     Log(DEBUG, "secureHash NULL");
   else
-    Log(DEBUG, "secureHash %s",*secureHash);
+    Log(DEBUG, "secureHash %s", *secureHash);
   
   for (i = 0; i < ptable2Hash->count; ++i){
     info=ptable2Hash->info[i];
@@ -891,17 +885,13 @@ void showRequest(int type,char *pRequest) {
 
       ptr=(char*) pRequest + methodsFields[type-1].structFieldsOffset[offset];
       
-      //BORRAR
-      //Log(DEBUG, "%s = (%d *%d)", structFieldsDesc[i], ptr, *ptr);
-      
       if (structFieldsType[i]) {
-	showRequestStruct((char *)(*ptr), structFieldsType[i], structFieldsDesc[i], "  ");
+	      showRequestStruct((char *)(*ptr), structFieldsType[i], structFieldsDesc[i], "  ");
       }
       else {
         if ((char*)(*ptr)) {
           sprintf(fieldValue, "%s", (char *)(*ptr));
-          //Log(INFO,"  %s = %s", structFieldsDesc[i], MaskFieldData(fieldValue, structFieldsDesc[i]));
-	  Log(INFO,"  %s = %s", structFieldsDesc[i], fieldValue);
+          Log(INFO,"  %s = %s", structFieldsDesc[i], fieldValue);
         }
         else {
           Log(INFO,"  %s = %s", structFieldsDesc[i], "(null)");
