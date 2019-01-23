@@ -579,15 +579,17 @@ int main( int argc, char **argv)
 The "INFO" level will write concise information of the request and will mask sensitive data of the request. 
 The "DEBUG" level will write information about the request to let developers debug it in a more detailed way.
 
+
+### Timeout
+
+You can change the connection and execution timeout of the request.
+
+ConnectionTimeout(Default=10 seconds)
+
+ExecutionTimeout(Default=60 seconds)
+
+
 ```
-you can change the timeout of the request.
-
-ConnectionTimeout(Default=10 seconds): you can change the connection timeout of the request.
-
-ExecutionTimeout(Default=60 seconds): you can change the execution timeout of the request.
-
-
-```test.c
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
