@@ -11,7 +11,7 @@
 
 ##  How to use it
 
-* Clone or [download](https://github.com/Ingenico-NPS-Latam/nps-sdk-c) and build locally: `git clone github.com/Ingenico-NPS-Latam/nps-sdk-c/npsSdk`
+* Clone or [download](https://github.com/Ingenico-NPS-Latam/nps-sdk-c) and build locally: `git clone https://github.com/Ingenico-NPS-Latam/nps-sdk-c` 
 * test.c it's just an example of how to use the sdk
 
 ##  How to Build
